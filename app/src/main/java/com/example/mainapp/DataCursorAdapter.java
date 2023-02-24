@@ -104,7 +104,7 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
             }
         });
 
-        holder.radioButton3.setOnClickListener(new View.OnClickListener() {
+            holder.radioButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ContentValues values = new ContentValues();
@@ -124,7 +124,15 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
 
             private void showDialog() {
                 if (mContext != null) {
+
                     CustomDialog dialog = new CustomDialog((Activity) mContext, mainarea, subarea, detailarea, list, result);
+                    Log.d("context(Activity)", String.valueOf(mContext));
+                    Log.d("특이사항 입력 클릭", String.valueOf(mainarea));
+                    Log.d("특이사항 입력 클릭", String.valueOf(subarea));
+                    Log.d("특이사항 입력 클릭", String.valueOf(detailarea));
+                    Log.d("특이사항 입력 클릭", String.valueOf(list));
+                    Log.d("특이사항 입력/result", String.valueOf(mCursor.getString(mCursor.getColumnIndexOrThrow("result"))));
+
                     dialog.show();
                 }
             }
