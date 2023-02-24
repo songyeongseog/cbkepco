@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    ...
+    <!-- Customize your theme here. -->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
+<!--    <style name="TabTheme" parent="Theme.AppCompat.DayNight.DarkActionBar"> // 탭바 테마-->
+<!--        <item name="colorPrimary">#0027FF</item>    // 탭바 배경색-->
+<!--        <item name="android:textColorPrimary">@android:color/yellow</item>       // 탭 선택 시 색깔-->
+<!--        <item name="android:textColorSecondary">@android:color/white</item>     // 탭 미선택 시 색깔-->
+
+<!--        <item name="colorAccent">@android:color/white</item>        // 탭 선택 시 하단 색깔-->
+<!--    </style>-->
+</resources>

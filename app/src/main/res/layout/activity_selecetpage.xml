@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="30dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="#0800ff"
+            android:text="ICT 설비점검 APP"
+            android:textSize="30sp"
+            android:textColor="#FFFFFF">
+        </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/main_btn1"
+                android:layout_width="140dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="해빙기(2~3월)"
+                android:textSize="20sp">
+            </Button>
+            <Button
+                android:id="@+id/main_btn2"
+                android:layout_width="140dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="여름철(6~7월)"
+                android:textSize="20sp">
+            </Button>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/main_btn3"
+                android:layout_width="140dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="추 석  (8~9월)"
+                android:textSize="20sp">
+            </Button>
+            <Button
+                android:id="@+id/main_btn4"
+                android:layout_width="140dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="겨울철(11~12월)"
+                android:textSize="20sp">
+            </Button>
+        </LinearLayout>
+
+    </LinearLayout>
+    <ImageView
+        android:layout_marginTop="250dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:src="@drawable/kepco_ci">
+
+    </ImageView>
+
+</LinearLayout>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#FFFFFFFF"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true">
+<!--        android:layout_marginBottom="5dp">-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#A0C1DC">
+
+<!--            <TextView-->
+<!--                android:id="@+id/mainarea1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="1번"-->
+<!--                android:textSize="20sp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/subarea1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="2번"-->
+<!--                android:textColor="#FF0000FF"-->
+<!--                android:textSize="20sp" />-->
+
+                <TextView
+                    android:id="@+id/detailarea1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="구분"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="left"
+                    android:textColor="#B5616161"
+                    android:textSize="20sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/list1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="점검내용"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="left"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/radiobtn1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="양호"
+                        android:textSize="15sp"/>
+
+                    <RadioButton
+                        android:id="@+id/radiobtn2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:text="불량"
+                        android:textSize="15sp"/>
+                    <RadioButton
+                        android:id="@+id/radiobtn3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:text="해당없음"
+                        android:textSize="15sp"/>
+                </RadioGroup>
+                <Button
+                    android:id="@+id/btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="특이사항 입력"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+                </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/result1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="점검결과 / 라디오버튼"-->
+<!--                android:textColor="#FF0000FF"-->
+<!--                android:textSize="20sp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/edittext1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="특이사항 / 버튼"-->
+<!--                android:textColor="#FF0000FF"-->
+<!--                android:textSize="20sp" />-->
+<!--&lt;!&ndash;            <TextView&ndash;&gt;-->
+<!--                android:id="@+id/image1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="이미지"-->
+<!--                android:textColor="#FF0000FF"-->
+<!--                android:textSize="20sp" />-->
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
+
