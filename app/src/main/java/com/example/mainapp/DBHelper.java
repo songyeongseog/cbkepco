@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.util.Log;
+
 public class DBHelper extends SQLiteOpenHelper {
 
 
@@ -47,6 +49,8 @@ public class DBHelper extends SQLiteOpenHelper {
 //        this.context = context;
 //        this.DB_PATH = context.getFilesDir().getPath();
 
+        Log.d("DBHelper", "생성자 : " + context);
+
         // assets 폴더에서 데이터베이스 파일을 복사하여 생성
         InputStream inputStream = null;
         OutputStream outputStream = null;
@@ -82,6 +86,9 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 테이블 생성 쿼리
+
+        Log.d("DBHelper", "OnCreate");
+
         // Check if the table exists before creating it
         String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + TABLE_NAME + "'";
         Cursor cursor = db.rawQuery(query, null);
@@ -169,7 +176,19 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void testUpdate(String table, ContentValues values, String whereClause, String[] whereArgs) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.update(table, values, whereClause, whereArgs);
+
+        Log.i("TEST", table);
+        Log.i("TEST", String.valueOf(values));
+        Log.i("TEST", whereClause);
+        Log.i("TEST", String.join(", ", whereArgs));
+    }
+
 }
+
+// 230224 ) DB 쿼리문 메소드 생성
 
 
 

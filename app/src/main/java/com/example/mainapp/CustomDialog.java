@@ -25,6 +25,7 @@ public class CustomDialog extends Dialog implements
 
 
     public Activity c;
+
     public Dialog d;
     public Button btnUpload;
     public Button saveButton;
@@ -39,11 +40,12 @@ public class CustomDialog extends Dialog implements
     private String result;
 
 
+
 // 로그를 찍어보니 인스턴스가 다름, 어댑터랑 인스턴스를 맞춰야함
     // context 로 선언된 것 같음 (어댑터, 핼퍼)
     // 여기도 맞춰야할듯
 
-    public CustomDialog(Context context, String mainarea, String subarea, String detailarea, String list, String result) {
+    public CustomDialog(Context context, String mainarea, String subarea, String detailarea, String list) {
 
         super(context);
         // TODO Auto-generated constructor stub
@@ -52,12 +54,12 @@ public class CustomDialog extends Dialog implements
         dbHelper = new DBHelper(mContext);
         db = dbHelper.getWritableDatabase();
 
-//        this.dbHelper = dbHelper; // DBHelper 인스턴스 저장
+        // this.dbHelper = dbHelper; // DBHelper 인스턴스 저장
         this.mainarea = mainarea;
         this.subarea = subarea;
         this.detailarea = detailarea;
         this.list = list;
-        this.result = result;
+        // this.result = result;
     }
 
     @Override
@@ -94,11 +96,18 @@ public class CustomDialog extends Dialog implements
 
                     ContentValues values = new ContentValues();
                     values.put("edittext", editGetText);
-                    db.update("checklist", values, "mainarea=? AND subarea=? AND detailarea=? AND list=? AND result=?",
-                            new String[] {mainarea, subarea, detailarea, list, result});
 
-                    Log.d("editText값",String.valueOf(db.update("checklist", values, "mainarea=? AND subarea=? AND detailarea=? AND list=? AND result=?",
-                            new String[] {mainarea, subarea, detailarea, list, result})));
+                    Log.d("editText", String.valueOf(values));
+                    Log.d("editText값", String.valueOf(db.update("checklist", values,
+                            "mainarea=? AND subarea=? AND detailarea=? AND list=?",
+                            new String[] {mainarea, subarea, detailarea, list})));
+                    Log.d("라디오버튼 1 인스턴스",String.valueOf(db));
+
+
+                    db.update("checklist", values, "mainarea=? AND subarea=? AND detailarea=? AND list=?",
+                            new String[] {mainarea, subarea, detailarea, list});
+
+
 
                     Log.d("다이얼로그 인스턴스",String.valueOf(db));
 //                    db.close();

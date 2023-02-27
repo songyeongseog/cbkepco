@@ -40,6 +40,8 @@ public class Fragment1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Log.d("Fragment1", "onCreate()");
+
         View view = inflater.inflate(R.layout.fragment1, container, false);
 
         mRecyclerView = view.findViewById(R.id.recyclerView);
@@ -48,9 +50,11 @@ public class Fragment1 extends Fragment {
 
 
         mDBHelper = new DBHelper(getContext());
+//        System.out.println("Fragment1.java 파일 53번째 줄입니다.");
 
 //        // 데이터베이스를 열고 커서를 가져옴
         Cursor cursor = mDBHelper.getData1();
+//        System.out.println("Fragment1.java 파일 57번째 줄입니다.");
 
 //        // 어댑터를 생성하고 커서를 전달하여 데이터를 로드
         mAdapter = new DataCursorAdapter(getContext(), cursor);

@@ -25,6 +25,8 @@ public class FragmentActivity1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_tab);
 
+        Log.d("FragmentActivity1", "onCreate()");
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

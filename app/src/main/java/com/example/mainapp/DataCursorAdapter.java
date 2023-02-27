@@ -79,6 +79,7 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
             public void onClick(View v) {
                 ContentValues values = new ContentValues();
                 values.put("result", holder.radioButton1.getText().toString());
+
                 db.update("checklist", values,
                         "mainarea=? AND subarea=? AND detailarea=? AND list=?",
                         new String[] {mainarea, subarea, detailarea, list});
@@ -86,7 +87,6 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
                 Log.d("양호버튼", String.valueOf(values));
                 Log.d("양호버튼 값", String.valueOf(db.update("checklist", values,
                         "mainarea=? AND subarea=? AND detailarea=? AND list=?",
-
                         new String[] {mainarea, subarea, detailarea, list})));
                 Log.d("라디오버튼 1 인스턴스",String.valueOf(db));
 
@@ -125,13 +125,7 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
             private void showDialog() {
                 if (mContext != null) {
 
-                    CustomDialog dialog = new CustomDialog((Activity) mContext, mainarea, subarea, detailarea, list, result);
-                    Log.d("context(Activity)", String.valueOf(mContext));
-                    Log.d("특이사항 입력 클릭", String.valueOf(mainarea));
-                    Log.d("특이사항 입력 클릭", String.valueOf(subarea));
-                    Log.d("특이사항 입력 클릭", String.valueOf(detailarea));
-                    Log.d("특이사항 입력 클릭", String.valueOf(list));
-                    Log.d("특이사항 입력/result", String.valueOf(mCursor.getString(mCursor.getColumnIndexOrThrow("result"))));
+                    CustomDialog dialog = new CustomDialog((Activity) mContext, mainarea, subarea, detailarea, list);
 
                     dialog.show();
                 }
