@@ -15,11 +15,14 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Entity;
+import androidx.room.Room;
 
 
 import com.google.android.material.animation.ImageMatrixProperty;
@@ -27,44 +30,78 @@ import com.google.android.material.animation.ImageMatrixProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Fragment1 extends Fragment {
-
 
     private RecyclerView mRecyclerView;
     private DataCursorAdapter mAdapter;
-    private DBHelper mDBHelper;
-//    private RadioGroup mRadioGroup;
+    private ChecklistDao mChecklistDao;
+//    private LiveData<List<Checklist>> mAllChecklists;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment1, container, false);
-
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-
-        mDBHelper = new DBHelper(getContext());
-
-//        // 데이터베이스를 열고 커서를 가져옴
-        Cursor cursor = mDBHelper.getData1();
-
-//        // 어댑터를 생성하고 커서를 전달하여 데이터를 로드
-        mAdapter = new DataCursorAdapter(getContext(), cursor);
+        mAdapter = new DataCursorAdapter();
         mRecyclerView.setAdapter(mAdapter);
+
+        // Room 데이터베이스에서 쿼리하여 어댑터에 데이터를 바인딩합니다.
+//        AppDatabase database = Room.databaseBuilder(getContext(), AppDatabase.class, "ICT 설비점검.db").build();
+        AppDatabase database = Room.databaseBuilder(getContext(), AppDatabase.class, "ICT 설비점검.db")
+//                .createFromAsset("ICT 설비점검.db")
+                .build();
+        new Thread(() -> {
+
+            List<Checklist> checklists = database.checklistDao().getChecklistById("해빙기");
+            getActivity().runOnUiThread(() -> mAdapter.setData(checklists));
+        }).start();
+
 
         return view;
     }
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        // DB 연결 해제
-        mDBHelper.close();
-    }
 }
 
+
+//public class Fragment1 extends Fragment {
+//
+//
+//    private RecyclerView mRecyclerView;
+//    private DataCursorAdapter mAdapter;
+//    private DBHelper mDBHelper;
+////    private RadioGroup mRadioGroup;
+//
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//
+//        View view = inflater.inflate(R.layout.fragment1, container, false);
+//
+//        mRecyclerView = view.findViewById(R.id.recyclerView);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//
+//
+//
+//        mDBHelper = new DBHelper(getContext());
+//
+////        // 데이터베이스를 열고 커서를 가져옴
+//        Cursor cursor = mDBHelper.getData1();
+//
+////        // 어댑터를 생성하고 커서를 전달하여 데이터를 로드
+//        mAdapter = new DataCursorAdapter(getContext(), cursor);
+//        mRecyclerView.setAdapter(mAdapter);
+//
+//        return view;
+//    }
+//
+//
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        // DB 연결 해제
+//        mDBHelper.close();
+//    }
+//}
+//

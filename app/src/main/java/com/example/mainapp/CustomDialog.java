@@ -20,8 +20,8 @@ public class CustomDialog extends Dialog implements
         android.view.View.OnClickListener {
 
     private DBHelper dbHelper;
-    private Context mContext;
     private SQLiteDatabase db;
+    private Context mContext;
 
 
     public Activity c;
@@ -46,9 +46,7 @@ public class CustomDialog extends Dialog implements
     public CustomDialog(Context context, String mainarea, String subarea, String detailarea, String list, String result) {
 
         super(context);
-        // TODO Auto-generated constructor stub
         mContext = context;
-
         dbHelper = new DBHelper(mContext);
         db = dbHelper.getWritableDatabase();
 
@@ -101,7 +99,7 @@ public class CustomDialog extends Dialog implements
                             new String[] {mainarea, subarea, detailarea, list, result})));
 
                     Log.d("다이얼로그 인스턴스",String.valueOf(db));
-//                    db.close();
+                    db.close();
                 }
                 Log.d("editText값", String.valueOf(editText.getText().toString()));
 
@@ -110,7 +108,7 @@ public class CustomDialog extends Dialog implements
                 break;
 
         }
-        dismiss();
+//        dismiss();
     }
 }
 
@@ -228,3 +226,72 @@ public class CustomDialog extends Dialog implements
 //        dismiss();
 //    }
 //}
+
+
+
+
+
+
+
+
+
+/***
+ *
+ *  Q: 라디오 버튼에서 선택한 값을 SharedPreferences나 Room 데이터베이스와 같은 영구 저장소에 저장하고, 다이얼로그에서 이 값을 불러올 때 이 저장소에서 값을 가져오는 방법을 알려줘
+ *
+ *
+ A :라디오 버튼에서 선택한 값을 SharedPreferences나 Room 데이터베이스와 같은 영구 저장소에 저장하고, 다이얼로그에서 이 값을 불러오는 방법은 다음과 같습니다.
+
+ SharedPreferences를 사용하는 경우:
+
+ 라디오 버튼에서 선택한 값을 SharedPreferences에 저장합니다.
+ java
+ Copy code
+ SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+ SharedPreferences.Editor editor = prefs.edit();
+ editor.putString("selectedValue", selectedValue);
+ editor.apply();
+ 다이얼로그에서 SharedPreferences에서 값을 가져와 사용합니다.
+ java
+ Copy code
+ SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+ String selectedValue = prefs.getString("selectedValue", "");
+ Room 데이터베이스를 사용하는 경우:
+
+ 데이터베이스 엔티티 클래스를 생성합니다.
+ java
+ Copy code
+ @Entity
+ public class SelectedValue {
+ @PrimaryKey
+ public int id;
+
+ public String value;
+ }
+ 데이터베이스 DAO 클래스를 생성합니다.
+ java
+ Copy code
+ @Dao
+ public interface SelectedValueDao {
+ @Insert(onConflict = OnConflictStrategy.REPLACE)
+ void insertSelectedValue(SelectedValue selectedValue);
+
+ @Query("SELECT * FROM SelectedValue WHERE id = 1")
+ SelectedValue getSelectedValue();
+ }
+ 라디오 버튼에서 선택한 값을 Room 데이터베이스에 저장합니다.
+ java
+ Copy code
+ SelectedValue selectedValue = new SelectedValue();
+ selectedValue.id = 1;
+ selectedValue.value = selectedValue;
+ AppDatabase.getInstance(context).selectedValueDao().insertSelectedValue(selectedValue);
+ 다이얼로그에서 Room 데이터베이스에서 값을 가져와 사용합니다.
+ java
+ Copy code
+ SelectedValue selectedValue = AppDatabase.getInstance(context).selectedValueDao().getSelectedValue();
+ String value = selectedValue.value;
+
+
+
+ ***/

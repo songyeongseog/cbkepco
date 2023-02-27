@@ -3,6 +3,7 @@
     package="com.example.mainapp">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 <!--    데이터베이스 접근권한 추가-->
 
     <application
