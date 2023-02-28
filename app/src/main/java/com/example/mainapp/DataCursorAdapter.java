@@ -96,6 +96,7 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
                 db.beginTransaction();  // 데이터 변경 작업 수행
                 try{
                     ContentValues values = new ContentValues();
+
                     values.put("result", holder.radioButton1.getText().toString()); // 양호 버튼 클릭 시 텍스트값 result 컬럼에 저장
                     values.put("date", convertTimeToDateTime(currentTime)); // 현재 시간 DateTime 형식으로 저장 및 date 컬럼에 저장
 
@@ -119,13 +120,15 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
                 db.beginTransaction();  // 데이터 변경 작업 수행
                 try{
                     ContentValues values = new ContentValues();
-                    values.put("result", holder.radioButton2.getText().toString());
+
+                    values.put("result", holder.radioButton2.getText().toString()); // 불량 버튼 클릭 시 텍스트값 result 컬럼에 저장
                     values.put("date", convertTimeToDateTime(currentTime)); // 현재 시간 DateTime 형식으로 저장 및 date 컬럼에 저장
 
                     db.update("checklist", values,
                             "mainarea=? AND subarea=? AND detailarea=? AND list=?",
                             new String[] {mainarea, subarea, detailarea, list});
                     db.setTransactionSuccessful();  // 변경 내용 커밋
+
                 } finally {
                     db.endTransaction();    // 트래젝션 종료
 //                    db.close();
@@ -141,7 +144,7 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
                 db.beginTransaction();  // 데이터 변경 작업 수행
                 try{
                     ContentValues values = new ContentValues();
-                    values.put("result", holder.radioButton3.getText().toString());
+                    values.put("result", holder.radioButton3.getText().toString()); // 해당없음 버튼 클릭 시 텍스트값 result 컬럼에 저장
                     values.put("date", convertTimeToDateTime(currentTime)); // 현재 시간 DateTime 형식으로 저장 및 date 컬럼에 저장
 
                     db.update("checklist", values,
@@ -159,7 +162,6 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
             @Override
             public void onClick(View v) {
                 Log.d("클릭", "했습니다");
-
                 showDialog();
             }
 
@@ -183,7 +185,7 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
         public TextView detailareaTextView;
         public TextView listTextView;
 
-//        public EditText editTextView;
+        //        public EditText editTextView;
         public RadioButton radioButton1;
         public RadioButton radioButton2;
         public RadioButton radioButton3;

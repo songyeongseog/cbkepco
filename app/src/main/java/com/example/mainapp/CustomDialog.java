@@ -51,18 +51,16 @@ public class CustomDialog extends Dialog implements
 
         super(context);
         mContext = context;
-        dbHelper = new DBHelper(mContext);
-        db = dbHelper.getWritableDatabase();
 
-//        this.dbHelper = dbHelper; // DBHelper 인스턴스 저장
         this.mainarea = mainarea;
         this.subarea = subarea;
         this.detailarea = detailarea;
         this.list = list;
 //        this.result = result;
 
-//        DataCursorAdapter adapter = new DataCursorAdapter(mContext, null);
-//        holder = adapter.getViewHolder();
+        dbHelper = new DBHelper(mContext);
+        db = dbHelper.getWritableDatabase();
+
 
     }
 
@@ -78,6 +76,10 @@ public class CustomDialog extends Dialog implements
 
         btnUpload.setOnClickListener(this);
         saveButton.setOnClickListener(this);
+
+
+//        dbHelper = new DBHelper(mContext);
+//        db = dbHelper.getWritableDatabase();
     }
 
 
@@ -89,14 +91,9 @@ public class CustomDialog extends Dialog implements
 
         switch (v.getId()) {
             case R.id.btn_upload:
-//                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
                 // 이미지 업로드 버튼 클릭 시 동작
                 // 사진촬영 및 갤러리를 불러오는 코드를 구현해야함
                 // TODO: 이미지 업로드 기능 구현
-
-
                 break;
 
             case R.id.saveButton:
@@ -118,16 +115,14 @@ public class CustomDialog extends Dialog implements
                     }
                 } finally {
                     db.endTransaction();    // 트래젝션 종료
-                    db.close();     // 데이터베이스 닫기
+//                    db.close();     // 데이터베이스 닫기
                 }
 
                 dismiss(); // 다이얼로그 닫기
+                break;
             default:
                 break;
         }
-
-//        dismiss();
-
     }
     // 밀리초 단위 시간 값을 DATETIME 형식으로 변환하는 메소드
     private String convertTimeToDateTime(long time) {
