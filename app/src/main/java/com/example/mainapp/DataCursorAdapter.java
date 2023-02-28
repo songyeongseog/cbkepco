@@ -143,6 +143,7 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
             @Override
             public void onClick(View v) {
                 Log.d("클릭", "했습니다");
+
                 showDialog();
             }
 
