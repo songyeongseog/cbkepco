@@ -176,14 +176,11 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void testUpdate(String table, ContentValues values, String whereClause, String[] whereArgs) {
+    public void deleteData(String table, String whereClause, String[] whereArgs) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.update(table, values, whereClause, whereArgs);
+        db.delete(table, whereClause, whereArgs);
 
-        Log.i("TEST", table);
-        Log.i("TEST", String.valueOf(values));
-        Log.i("TEST", whereClause);
-        Log.i("TEST", String.join(", ", whereArgs));
+        db.close();
     }
 
 }
