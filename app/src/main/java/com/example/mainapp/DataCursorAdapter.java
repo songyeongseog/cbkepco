@@ -166,7 +166,7 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
             private void showDialog() {
 
                 if (mContext != null) {
-                    CustomDialog dialog = new CustomDialog((Activity) mContext, mainarea, subarea, detailarea, list, result);
+                    CustomDialog dialog = new CustomDialog((Activity) mContext, mainarea, subarea, detailarea, list);
                     dialog.show();
                 }
             }

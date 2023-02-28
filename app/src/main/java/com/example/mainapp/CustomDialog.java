@@ -47,7 +47,7 @@ public class CustomDialog extends Dialog implements
 
 
 
-    public CustomDialog(Context context, String mainarea, String subarea, String detailarea, String list, String result) {
+    public CustomDialog(Context context, String mainarea, String subarea, String detailarea, String list) {
 
         super(context);
         mContext = context;
@@ -59,7 +59,7 @@ public class CustomDialog extends Dialog implements
         this.subarea = subarea;
         this.detailarea = detailarea;
         this.list = list;
-        this.result = result;
+//        this.result = result;
 
 //        DataCursorAdapter adapter = new DataCursorAdapter(mContext, null);
 //        holder = adapter.getViewHolder();
@@ -112,8 +112,8 @@ public class CustomDialog extends Dialog implements
 
                         values.put("date", convertTimeToDateTime(currentTime)); // 현재 시간 DateTime 형식으로 저장
 
-                        db.update("checklist", values, "mainarea=? AND subarea=? AND detailarea=? AND list=? AND result=?",
-                                new String[] {mainarea, subarea, detailarea, list, result});
+                        db.update("checklist", values, "mainarea=? AND subarea=? AND detailarea=? AND list=?",
+                                new String[] {mainarea, subarea, detailarea, list});
                         db.setTransactionSuccessful();  // 변경 내용 커밋
                     }
                 } finally {
