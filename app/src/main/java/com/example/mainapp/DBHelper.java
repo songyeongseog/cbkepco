@@ -190,25 +190,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
 }
 
-
-    public void updateData(String mainarea, String subarea, String detailarea, String list, String result, String editGetText) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_EDITTEXT, editGetText);
-        db.update(TABLE_NAME, values, "mainarea=? AND subarea=? AND detailarea=? AND list=? AND result=?",
-                new String[] {mainarea, subarea, detailarea, list, result});
-        db.close();
-    }
-
-    public void deleteData(String table, String whereClause, String[] whereArgs) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(table, whereClause, whereArgs);
-
-        db.close();
-    }
-
-}
-
 // 230224 ) DB 쿼리문 메소드 생성
 
 
