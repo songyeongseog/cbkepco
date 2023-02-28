@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,35 +46,41 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        SQLiteDatabase db = getWritableDatabase();
+
+        File dbFile = new File(db.getPath());
+        db.close();
 //        this.context = context;
 //        this.DB_PATH = context.getFilesDir().getPath();
 
-        // assets 폴더에서 데이터베이스 파일을 복사하여 생성
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
+        if (!dbFile.exists()) {
+            // assets 폴더에서 데이터베이스 파일을 복사하여 생성
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
 
-        try {
-            inputStream = context.getAssets().open(DATABASE_NAME);
-            outputStream = new FileOutputStream(context.getDatabasePath(DATABASE_NAME));
-
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
-            outputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
             try {
-                if (inputStream != null) {
-                    inputStream.close();
+                inputStream = context.getAssets().open(DATABASE_NAME);
+                outputStream = new FileOutputStream(context.getDatabasePath(DATABASE_NAME));
+
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, length);
                 }
-                if (outputStream != null) {
-                    outputStream.close();
-                }
+                outputStream.flush();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    if (outputStream != null) {
+                        outputStream.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -158,6 +165,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // 조회 결과 반환
         return db.rawQuery(query, null);
+
+
     }
 
 

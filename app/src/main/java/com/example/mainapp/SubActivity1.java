@@ -32,12 +32,24 @@ public class SubActivity1 extends AppCompatActivity {
         // 뒤로가기 버튼(MainActivity 이동) --> 처음 설비점검 선택하는 화면
         Button sub1_btn5 = (Button) findViewById(R.id.sub1_btn5);
         sub1_btn5.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
                 Intent intent5 = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent5);
             }
         });
+
+
+        // 뒤로가기 버튼(MainActivity 이동) --> 처음 설비점검 선택하는 화면
+        Button sub1_btn6 = (Button) findViewById(R.id.sub1_btn6);
+        sub1_btn6.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
-    }
+}
