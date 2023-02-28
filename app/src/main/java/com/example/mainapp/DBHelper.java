@@ -166,6 +166,30 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, null);
     }
 
+    // update 실험용
+    public void updateData(String mainarea, String subarea, String detailarea, String list, String result, String editGetText) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_EDITTEXT, editGetText);
+        db.update(TABLE_NAME, values, "mainarea=? AND subarea=? AND detailarea=? AND list=? AND result=?",
+                new String[] {mainarea, subarea, detailarea, list, result});
+        db.close();
+    }
+
+    // 점검결과 송부 시 delete용
+    public void deleteData(String whereArgs) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String whereClauseQuery = COLUMN_MAINAREA + "=?";
+        String whereArgsQuery[] = {whereArgs};
+
+        db.delete(TABLE_NAME, whereClauseQuery, whereArgsQuery);
+
+        db.close();
+    }
+
+}
+
 
     public void updateData(String mainarea, String subarea, String detailarea, String list, String result, String editGetText) {
         SQLiteDatabase db = this.getWritableDatabase();
