@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -20,13 +21,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.security.PrivateKey;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.DataViewHolder> {
 
+    private DataViewHolder mViewHolder;
+
     private Context mContext;
     private Cursor mCursor;
+
 
     private SQLiteDatabase db;
 
@@ -42,8 +49,15 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
     public DataViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(mContext)
                 .inflate(R.layout.recyclerview_item, parent, false);
+//        mViewHolder = new DataViewHolder(itemView);
         return new DataViewHolder(itemView);
+//        return mViewHolder;
     }
+
+//    // ViewHolder 객체를 반환하는 getter 메서드
+//    public DataViewHolder getViewHolder() {
+//        return mViewHolder;
+//    }
 
     @Override
     public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
@@ -57,9 +71,6 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
 ////        String result = mCursor.getString(mCursor.getColumnIndex("result"));
 ////        holder.radioButton1.setText(result);
 //
-
-
-
 
         // 커서에서 데이터를 가져와서 뷰에 설정
         String mainarea = mCursor.getString(mCursor.getColumnIndexOrThrow("mainarea"));
@@ -77,41 +88,67 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
         holder.radioButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContentValues values = new ContentValues();
-                values.put("result", holder.radioButton1.getText().toString());
+                long currentTime = System.currentTimeMillis();
 
-                db.update("checklist", values,
-                        "mainarea=? AND subarea=? AND detailarea=? AND list=?",
-                        new String[] {mainarea, subarea, detailarea, list});
+                db.beginTransaction();  // 데이터 변경 작업 수행
+                try{
+                    ContentValues values = new ContentValues();
+                    values.put("result", holder.radioButton1.getText().toString()); // 양호 버튼 클릭 시 텍스트값 result 컬럼에 저장
+                    values.put("date", convertTimeToDateTime(currentTime)); // 현재 시간 DateTime 형식으로 저장 및 date 컬럼에 저장
 
-                Log.d("양호버튼", String.valueOf(values));
-                Log.d("양호버튼 값", String.valueOf(db.update("checklist", values,
-                        "mainarea=? AND subarea=? AND detailarea=? AND list=?",
-                        new String[] {mainarea, subarea, detailarea, list})));
-                Log.d("라디오버튼 1 인스턴스",String.valueOf(db));
-
+                    db.update("checklist", values,
+                            "mainarea=? AND subarea=? AND detailarea=? AND list=?",
+                                new String[] {mainarea, subarea, detailarea, list});
+                    db.setTransactionSuccessful();  // 변경 내용 커밋
+                } finally {
+                    db.endTransaction();    // 트래젝션 종료
+//                    db.close();
+                }
             }
         });
 
         holder.radioButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContentValues values = new ContentValues();
-                values.put("result", holder.radioButton2.getText().toString());
-                db.update("checklist", values,
-                        "mainarea=? AND subarea=? AND detailarea=? AND list=?",
-                        new String[]{mainarea, subarea, detailarea, list});
+                long currentTime = System.currentTimeMillis();
+
+
+                db.beginTransaction();  // 데이터 변경 작업 수행
+                try{
+                    ContentValues values = new ContentValues();
+                    values.put("result", holder.radioButton2.getText().toString());
+                    values.put("date", convertTimeToDateTime(currentTime)); // 현재 시간 DateTime 형식으로 저장 및 date 컬럼에 저장
+
+                    db.update("checklist", values,
+                            "mainarea=? AND subarea=? AND detailarea=? AND list=?",
+                            new String[] {mainarea, subarea, detailarea, list});
+                    db.setTransactionSuccessful();  // 변경 내용 커밋
+                } finally {
+                    db.endTransaction();    // 트래젝션 종료
+//                    db.close();
+                }
             }
         });
 
-            holder.radioButton3.setOnClickListener(new View.OnClickListener() {
+        holder.radioButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContentValues values = new ContentValues();
-                values.put("result", holder.radioButton3.getText().toString());
-                db.update("checklist", values,
-                        "mainarea=? AND subarea=? AND detailarea=? AND list=?",
-                        new String[] {mainarea, subarea, detailarea, list});
+                long currentTime = System.currentTimeMillis();
+
+                db.beginTransaction();  // 데이터 변경 작업 수행
+                try{
+                    ContentValues values = new ContentValues();
+                    values.put("result", holder.radioButton3.getText().toString());
+                    values.put("date", convertTimeToDateTime(currentTime)); // 현재 시간 DateTime 형식으로 저장 및 date 컬럼에 저장
+
+                    db.update("checklist", values,
+                            "mainarea=? AND subarea=? AND detailarea=? AND list=?",
+                            new String[] {mainarea, subarea, detailarea, list});
+                    db.setTransactionSuccessful();  // 변경 내용 커밋
+                } finally {
+                    db.endTransaction();    // 트래젝션 종료
+//                    db.close();
+                }
             }
         });
 
@@ -119,14 +156,15 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
             @Override
             public void onClick(View v) {
                 Log.d("클릭", "했습니다");
+
                 showDialog();
             }
 
             private void showDialog() {
+
                 if (mContext != null) {
-
+//                    Log.d("특이사항 입력 클릭 시점", result);
                     CustomDialog dialog = new CustomDialog((Activity) mContext, mainarea, subarea, detailarea, list);
-
                     dialog.show();
                 }
             }
@@ -142,9 +180,12 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
     public static class DataViewHolder extends RecyclerView.ViewHolder {
         public TextView detailareaTextView;
         public TextView listTextView;
+
+//        public EditText editTextView;
         public RadioButton radioButton1;
         public RadioButton radioButton2;
         public RadioButton radioButton3;
+
 
         public Button btn;
 
@@ -154,6 +195,7 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
             super(itemView);
             detailareaTextView = itemView.findViewById(R.id.detailarea1);
             listTextView = itemView.findViewById(R.id.list1);
+//            editTextView = itemView.findViewById(R.id.edit_text);
             radioButton1 = itemView.findViewById(R.id.radiobtn1);
             radioButton2 = itemView.findViewById(R.id.radiobtn2);
             radioButton3 = itemView.findViewById(R.id.radiobtn3);
@@ -172,6 +214,13 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
         if (newCursor != null) {
             notifyDataSetChanged();
         }
+    }
+
+    // 밀리초 단위 시간 값을 DATETIME 형식으로 변환하는 메소드
+    private String convertTimeToDateTime(long time) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date(time);
+        return dateFormat.format(date);
     }
 }
 
