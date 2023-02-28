@@ -21,7 +21,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.security.PrivateKey;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.DataViewHolder> {
@@ -88,10 +91,14 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
         holder.radioButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                long currentTime = System.currentTimeMillis();
+
                 db.beginTransaction();  // 데이터 변경 작업 수행
                 try{
                     ContentValues values = new ContentValues();
-                    values.put("result", holder.radioButton1.getText().toString());
+                    values.put("result", holder.radioButton1.getText().toString()); // 양호 버튼 클릭 시 텍스트값 result 컬럼에 저장
+                    values.put("date", convertTimeToDateTime(currentTime)); // 현재 시간 DateTime 형식으로 저장 및 date 컬럼에 저장
+
                     db.update("checklist", values,
                             "mainarea=? AND subarea=? AND detailarea=? AND list=?",
                             new String[] {mainarea, subarea, detailarea, list});
@@ -106,10 +113,15 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
         holder.radioButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                long currentTime = System.currentTimeMillis();
+
+
                 db.beginTransaction();  // 데이터 변경 작업 수행
                 try{
                     ContentValues values = new ContentValues();
                     values.put("result", holder.radioButton2.getText().toString());
+                    values.put("date", convertTimeToDateTime(currentTime)); // 현재 시간 DateTime 형식으로 저장 및 date 컬럼에 저장
+
                     db.update("checklist", values,
                             "mainarea=? AND subarea=? AND detailarea=? AND list=?",
                             new String[] {mainarea, subarea, detailarea, list});
@@ -124,10 +136,14 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
         holder.radioButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                long currentTime = System.currentTimeMillis();
+
                 db.beginTransaction();  // 데이터 변경 작업 수행
                 try{
                     ContentValues values = new ContentValues();
                     values.put("result", holder.radioButton3.getText().toString());
+                    values.put("date", convertTimeToDateTime(currentTime)); // 현재 시간 DateTime 형식으로 저장 및 date 컬럼에 저장
+
                     db.update("checklist", values,
                             "mainarea=? AND subarea=? AND detailarea=? AND list=?",
                             new String[] {mainarea, subarea, detailarea, list});
@@ -200,6 +216,13 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
         if (newCursor != null) {
             notifyDataSetChanged();
         }
+    }
+
+    // 밀리초 단위 시간 값을 DATETIME 형식으로 변환하는 메소드
+    private String convertTimeToDateTime(long time) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date(time);
+        return dateFormat.format(date);
     }
 }
 
