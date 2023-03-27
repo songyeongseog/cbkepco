@@ -26,6 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="해빙기 ICT 설비점검 결과"
+                    android:textSize="30sp"
                     android:textAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
             </androidx.appcompat.widget.Toolbar>

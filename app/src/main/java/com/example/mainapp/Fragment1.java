@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -34,7 +35,7 @@ public class Fragment1 extends Fragment {
     private RecyclerView mRecyclerView;
     private DataCursorAdapter mAdapter;
     private DBHelper mDBHelper;
-//    private RadioGroup mRadioGroup;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,14 +46,16 @@ public class Fragment1 extends Fragment {
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-
         mDBHelper = new DBHelper(getContext());
 
-//        // 데이터베이스를 열고 커서를 가져옴
+        // 데이터베이스를 열고 커서를 가져옴
         Cursor cursor = mDBHelper.getData1();
 
-//        // 어댑터를 생성하고 커서를 전달하여 데이터를 로드
+        Log.d("getData1()", String.valueOf(mDBHelper.getData1()));
+        Log.d("프래그먼트", String.valueOf(cursor));
+
+        // 어댑터를 생성하고 커서를 전달하여 데이터를 로드
+
         mAdapter = new DataCursorAdapter(getContext(), cursor);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -67,4 +70,5 @@ public class Fragment1 extends Fragment {
 //        mDBHelper.close();
     }
 }
+
 

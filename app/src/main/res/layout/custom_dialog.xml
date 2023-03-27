@@ -14,15 +14,14 @@
         <EditText
             android:id="@+id/edit_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:hint="특이사항을 입력하세요"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#2196F3"
-            android:text="사진"/>
+            android:background="@drawable/camera_selector"/>
 
     </LinearLayout>
 
@@ -31,7 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#2196F3"
-        android:text="저장 및 닫기"/>
+        android:text="저장 및 닫기"
+        android:textSize="20sp"/>
 
     <ImageView
         android:id="@+id/image_view"

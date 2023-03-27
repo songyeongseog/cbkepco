@@ -3,13 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_orange_light"
     android:orientation="vertical"
-    tools:context=".Fragment2">
+    tools:context=".Fragment1">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
+        android:id="@+id/frgmentBtn1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="두 번째" />
+        android:text="다음 페이지로 이동"
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>
+

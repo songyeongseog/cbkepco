@@ -39,6 +39,12 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation files('libs\\opencsv-5.7.1.jar')
+    implementation files('libs\\libDaumMapAndroid.jar')
+    implementation files('libs\\com.skt.Tmap_1.75.jar')
+    implementation files('libs\\gson-2.7.jar')
+    implementation 'androidx.navigation:navigation-fragment:2.3.5'
+    implementation 'androidx.navigation:navigation-ui:2.3.5'
+
 
     dependencies {
         def room_version = "2.4.0"

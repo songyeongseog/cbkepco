@@ -1,6 +1,5 @@
 package com.example.mainapp;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,25 +14,22 @@ import java.io.OutputStream;
 public class DBHelper extends SQLiteOpenHelper {
 
 
+//    private Context mContext;
+
+
     // DB 정보
     private static final String DATABASE_NAME = "ICT 설비점검.db";
     private static final int DATABASE_VERSION = 1;
 
-//    private String DB_PATH;
-//    private final Context context;
 
+    // DB 경로
+//    private static String DB_PATH = "/data/data/com.example.mainapp/assets/ICT 설비점검.db";
 
     // 테이블 정보
     public static String TABLE_NAME = "checklist";      // 라디오 버튼 클릭
-    private static final String COLUMN_NAME_MAINAREA = "mainarea";
-    private static final String COLUMN_NAME_SUBAREA = "subarea";
-    private static final String COLUMN_NAME_DETAILAREA = "detailarea";
-    private static final String COLUMN_NAME_LIST = "list";
-    private static final String COLUMN_NAME_RESULT = "result";
-    private static final String COLUMN_NAME_EDITTEXT = "edittext";
-    private static final String COLUMN_NAME_IMAGE = "image";
 
-    public static final String COLUMN_ID = "_id";
+    // 컬럼 정보
+    public static final String COLUMN_ID = "id";
     public static final String COLUMN_MAINAREA = "mainarea";
     public static final String COLUMN_SUBAREA = "subarea";
     public static final String COLUMN_DETAILAREA = "detailarea";
@@ -41,17 +37,59 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RESULT = "result";
     public static final String COLUMN_EDITTEXT = "edittext";
     public static final String COLUMN_IMAGE = "image";
+    public static final String COLUMN_DATE = "date";
 
     // 생성자
 
+//    public DBHelper(Context context) {
+//        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+//
+//        SQLiteDatabase db = getWritableDatabase();
+//        File dbFile = new File(db.getPath());
+//
+//        Log.d("경로", String.valueOf(db.getPath()));
+//        Log.d("경로2", String.valueOf(context.getDatabasePath(DATABASE_NAME)));
+//
+////        db.close();
+//
+//        if (!dbFile.exists()) {
+//            // assets 폴더에서 데이터베이스 파일을 복사하여 생성
+//            InputStream inputStream = null;
+//            OutputStream outputStream = null;
+//
+//            try {
+//                inputStream = context.getAssets().open(DATABASE_NAME);
+//                outputStream = new FileOutputStream(context.getDatabasePath(DATABASE_NAME));
+//
+//                byte[] buffer = new byte[1024];
+//                int length;
+//                while ((length = inputStream.read(buffer)) > 0) {
+//                    outputStream.write(buffer, 0, length);
+//                }
+//                outputStream.flush();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                try {
+//                    if (inputStream != null) {
+//                        inputStream.close();
+//                    }
+//                    if (outputStream != null) {
+//                        outputStream.close();
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                Log.d("inputStraem", String.valueOf(inputStream));
+//                Log.d("outputStraem", String.valueOf(outputStream));
+//            }
+//        }
+//    }
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        SQLiteDatabase db = getWritableDatabase();
-//
-        File dbFile = new File(db.getPath());
-        db.close();
-//        this.context = context;
-//        this.DB_PATH = context.getFilesDir().getPath();
+
+        File dbFile = context.getDatabasePath(DATABASE_NAME);
 
         if (!dbFile.exists()) {
             // assets 폴더에서 데이터베이스 파일을 복사하여 생성
@@ -60,7 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
             try {
                 inputStream = context.getAssets().open(DATABASE_NAME);
-                outputStream = new FileOutputStream(context.getDatabasePath(DATABASE_NAME));
+                outputStream = new FileOutputStream(dbFile);
 
                 byte[] buffer = new byte[1024];
                 int length;
@@ -102,13 +140,16 @@ public class DBHelper extends SQLiteOpenHelper {
         if (!tableExists) {
             // Create the table if it doesn't exist
             String createTableQuery = "CREATE TABLE " + TABLE_NAME + " (" +
-                    COLUMN_MAINAREA + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    // 23.3.15 추가 ID 컬럼 (기존 : COLUMN_MAINAREA + INTEGER PRIMARY KEY AUTOINCREMENT)
+                    COLUMN_MAINAREA + " TEXT, " +
                     COLUMN_SUBAREA + " TEXT, " +
                     COLUMN_DETAILAREA + " TEXT, " +
                     COLUMN_LIST + " TEXT, " +
                     COLUMN_RESULT + " TEXT, " +
                     COLUMN_EDITTEXT + " TEXT, " +
-                    COLUMN_IMAGE + " TEXT" +
+                    COLUMN_IMAGE + " TEXT," +
+                    COLUMN_DATE + " TEXT" +
                     ")";
             db.execSQL(createTableQuery);
         }
@@ -132,7 +173,7 @@ public class DBHelper extends SQLiteOpenHelper {
     // getData1() : 해빙기 프래그먼트 내 보안감시 설비 조회 함수
     public Cursor getData1() {
         // DB 열기
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         // 테이블 전체 조회 쿼리
 //        String query = "SELECT * FROM " + TABLE_NAME ;
@@ -146,6 +187,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
         // 조회 결과 반환
+//        return db.rawQuery(query, null);
         return db.rawQuery(query, null);
     }
 
@@ -153,7 +195,7 @@ public class DBHelper extends SQLiteOpenHelper {
     // getData2() : 해빙기 프래그먼트 내 무선통신 설비 조회 함수
     public Cursor getData2() {
         // DB 열기
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
 
         // 해빙기 프래그먼트 내 무선통신설비 조회 쿼리
@@ -165,51 +207,146 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // 조회 결과 반환
         return db.rawQuery(query, null);
+    }
+
+    // getDataMain() : 보안감시설비 대분류 묶기 (ex: 보안감시설비 리사이클러뷰 최상단)
+
+    public Cursor getDataMain1() {
+        // DB 열기
+        SQLiteDatabase db = getWritableDatabase();
 
 
+        // 해빙기 프래그먼트 내 무선통신설비 조회 쿼리 (중복값 컬럼 예외)
+        String query = "SELECT  *  FROM " + TABLE_NAME +
+                " WHERE " + "(" + COLUMN_MAINAREA + "=" + "'해빙기'" +
+                " AND " + COLUMN_SUBAREA + "=" + "'보안감시설비'" +
+                ")" +
+                " GROUP BY " + COLUMN_MAINAREA + "," + COLUMN_SUBAREA ;
+
+        // 조회 결과 반환
+        return db.rawQuery(query, null);
     }
 
 
-//    public void updateData(Context context, ContentValues values, String mainarea, String subarea, String detailarea, String list, String result, String editGetText) {
-//        SQLiteDatabase db = null;
+//    public Cursor getDataMain1() {
+//        // DB 열기
+//        SQLiteDatabase db = getWritableDatabase();
 //
-//        try {
-//            db = SQLiteDatabase.openDatabase(context.getDatabasePath(DATABASE_NAME).getPath(), null , SQLiteDatabase.OPEN_READWRITE);
-//            ContentValues values = new ContentValues();
-//            values.put(COLUMN_EDITTEXT, editGetText);
-//            db.update(TABLE_NAME, values, "mainarea=? AND subarea=? AND detailarea=? AND list=? AND result=?",
-//                    new String[] {mainarea, subarea, detailarea, list, result});
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (db !=null) {
-//                db.close();
-//            }
-//        }
+//
+//        // 해빙기 프래그먼트 내 무선통신설비 조회 쿼리 (중복값 컬럼 예외)
+//        String query = "SELECT DISTINCT " + COLUMN_MAINAREA + "," + COLUMN_SUBAREA + " FROM " + TABLE_NAME +
+//                " WHERE " + "(" + COLUMN_MAINAREA + "=" + "'해빙기'" +
+//                " AND " + COLUMN_SUBAREA + "=" + "'보안감시설비'" +
+//                ")";
+//
+//        // 조회 결과 반환
+//        return db.rawQuery(query, null);
 //    }
 
+    // getDataMain() : CCTV 대분류 묶기 (ex: 보안감시설비 리사이클러뷰 최상단)
+    public Cursor getDataSub1_1() {
+        // DB 열기
+        SQLiteDatabase db = getWritableDatabase();
+
+
+        // 해빙기 프래그먼트 내 무선통신설비 조회 쿼리
+        String query = "SELECT DISTINCT " + COLUMN_MAINAREA + "," + COLUMN_SUBAREA + "," + COLUMN_DETAILAREA +" FROM " + TABLE_NAME +
+                " WHERE " + "(" + COLUMN_MAINAREA + "=" + "'해빙기'" +
+                " AND " + COLUMN_SUBAREA + "=" + "'보안감시설비'" +
+                " AND " + COLUMN_DETAILAREA + "=" + "'화상감시/CCTV'" +
+                ")";
+
+        // 조회 결과 반환
+        return db.rawQuery(query, null);
+    }
+
+    public Cursor getDataSub1_2() {
+        // DB 열기
+        SQLiteDatabase db = getWritableDatabase();
+
+
+        // 해빙기 프래그먼트 내 무선통신설비 조회 쿼리
+//        String query = "SELECT DISTINCT " + COLUMN_MAINAREA + "," + COLUMN_SUBAREA + "," + COLUMN_DETAILAREA +" FROM " + TABLE_NAME +
+        String query = "SELECT * FROM " + TABLE_NAME +
+                " WHERE " + COLUMN_MAINAREA + "=" + "'해빙기'" +
+                " AND " + COLUMN_SUBAREA + "=" + "'보안감시설비'" +
+                "AND" + "(" + COLUMN_DETAILAREA + "=" + "'화상감시/CCTV'" +
+                " OR " + COLUMN_DETAILAREA + "=" + "'출입통제'" +
+                " OR " + COLUMN_DETAILAREA + "=" + "'울타리감지'" +
+                " OR " + COLUMN_DETAILAREA + "=" + "'침투감지'" +
+                ")" +
+                " GROUP BY " + COLUMN_MAINAREA + "," + COLUMN_SUBAREA + "," + COLUMN_DETAILAREA ;
+
+
+        // 조회 결과 반환
+        return db.rawQuery(query, null);
+    }
+
+
+//    public Cursor getDataSub1_2() {
+//        // DB 열기
+//        SQLiteDatabase db = getWritableDatabase();
+//
+//
+//        // 해빙기 프래그먼트 내 무선통신설비 조회 쿼리
+//        String query = "SELECT DISTINCT " + COLUMN_MAINAREA + "," + COLUMN_SUBAREA + "," + COLUMN_DETAILAREA +" FROM " + TABLE_NAME +
+//                " WHERE " + "(" + COLUMN_MAINAREA + "=" + "'해빙기'" +
+//                " AND " + COLUMN_SUBAREA + "=" + "'보안감시설비'" +
+//                " AND " + COLUMN_DETAILAREA + "=" + "'화상감시/CCTV'" +
+//                ")"
+//                +
+//                " UNION "
+//                +
+//                "SELECT DISTINCT " + COLUMN_MAINAREA + "," + COLUMN_SUBAREA + "," + COLUMN_DETAILAREA +" FROM " + TABLE_NAME +
+//                " WHERE " + "(" + COLUMN_MAINAREA + "=" + "'해빙기'" +
+//                " AND " + COLUMN_SUBAREA + "=" + "'보안감시설비'" +
+//                " AND " + COLUMN_DETAILAREA + "=" + "'출입통제'" +
+//                ")"
+//                +
+//                " UNION "
+//                +
+//                "SELECT DISTINCT " + COLUMN_MAINAREA + "," + COLUMN_SUBAREA + "," + COLUMN_DETAILAREA +" FROM " + TABLE_NAME +
+//                " WHERE " + "(" + COLUMN_MAINAREA + "=" + "'해빙기'" +
+//                " AND " + COLUMN_SUBAREA + "=" + "'보안감시설비'" +
+//                " AND " + COLUMN_DETAILAREA + "=" + "'울타리 감지'" +
+//                ")"
+//                +
+//                " UNION "
+//                +
+//                "SELECT DISTINCT " + COLUMN_MAINAREA + "," + COLUMN_SUBAREA + "," + COLUMN_DETAILAREA +" FROM " + TABLE_NAME +
+//                " WHERE " + "(" + COLUMN_MAINAREA + "=" + "'해빙기'" +
+//                " AND " + COLUMN_SUBAREA + "=" + "'보안감시설비'" +
+//                " AND " + COLUMN_DETAILAREA + "=" + "'침투감지'" +
+//                ")";
+////                + " ORDER BY " + COLUMN_ID + " ASC";
+//        // TODO  : ORDER BY 를 컬럼 아이디로 오름차순 하는 것을 확인해봐야 함.
+//
+//        // 조회 결과 반환
+//        return db.rawQuery(query, null);
+//    }
+
+    public Cursor getDataSub1_3() {
+        // DB 열기
+        SQLiteDatabase db = getWritableDatabase();
+
+
+        String query = "SELECT DISTINCT " + COLUMN_MAINAREA + "," + COLUMN_SUBAREA + "," + COLUMN_DETAILAREA + ","+
+                COLUMN_DETAILAREA + "," + COLUMN_LIST  +"," + COLUMN_RESULT + " FROM " + TABLE_NAME +
+                " WHERE " + "(" + COLUMN_MAINAREA + "=" + "'해빙기'" +
+                " AND " + COLUMN_SUBAREA + "=" + "'보안감시설비'" +
+                " AND " + COLUMN_DETAILAREA + " IN " + "(" +
+                "'화상감시/CCTV'"+ "," +
+                "'출입통제'" + "," +
+                "'울타리 감지'" + "," +
+                "'침투감지'" +
+                ")" +
+                ")";
+
+        // 조회 결과 반환
+        return db.rawQuery(query, null);
+    }
 
 }
-
-
-
-//
-//    public Cursor getRadioButtons() {
-//        SQLiteDatabase db = getReadableDatabase();
-//        String[] projection = {
-//                COLUMN_RESULT
-//        };
-//        String sortOrder = COLUMN_RESULT + " ASC";
-//        return db.query(
-//                TABLE_NAME,
-//                projection,
-//                null,
-//                null,
-//                null,
-//                null,
-//                sortOrder
-//        );
-//    }
 
 
 

@@ -13,6 +13,8 @@ import com.google.android.material.tabs.TabLayout;
 public class FragmentActivity1 extends AppCompatActivity {
 
 
+
+
     Toolbar toolbar;
 
     Fragment1 fragment1;        // 해빙기 보안감시설비 탭 변수 선언 (가져오기)

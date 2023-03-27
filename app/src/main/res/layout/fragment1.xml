@@ -10,5 +10,12 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/frgmentBtn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="다음 페이지로 이동"
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>
 

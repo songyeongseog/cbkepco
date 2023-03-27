@@ -82,10 +82,13 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
         String list = mCursor.getString(mCursor.getColumnIndexOrThrow("list"));
         String result = mCursor.getString(mCursor.getColumnIndexOrThrow("result"));
         String edittext = mCursor.getString(mCursor.getColumnIndexOrThrow("edittext"));
-        String im = mCursor.getString(mCursor.getColumnIndexOrThrow("image"));
+        String imageName = mCursor.getString(mCursor.getColumnIndexOrThrow("image"));
+
 
         holder.detailareaTextView.setText(detailarea);
         holder.listTextView.setText(list);
+//        holder.listTextView.setText(imageName);
+
 
         // 라디오 버튼 클릭 리스너
         holder.radioButton1.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +171,7 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
             private void showDialog() {
 
                 if (mContext != null) {
-                    CustomDialog dialog = new CustomDialog((Activity) mContext, mainarea, subarea, detailarea, list);
+                    CustomDialog dialog = new CustomDialog((Activity) mContext, mContext, mainarea, subarea, detailarea, list);
                     dialog.show();
                 }
             }
@@ -227,12 +230,3 @@ public class DataCursorAdapter extends RecyclerView.Adapter<DataCursorAdapter.Da
         return dateFormat.format(date);
     }
 }
-
-
-
-// 다이어로그 호출코드
-//
-//    public void showDialog(Activity activity) {
-//        final CustomDialog dialog = new CustomDialog(activity);
-//        dialog.show();
-//    }
