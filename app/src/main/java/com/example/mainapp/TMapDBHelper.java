@@ -78,7 +78,32 @@ public class TMapDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE);
+
+        // 테이블 생성 쿼리
+        // Check if the table exists before creating it
+        String query = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + TABLE_NAME + "'";
+        Cursor cursor = db.rawQuery(query, null);
+        boolean tableExists = false;
+        if (cursor != null) {
+            tableExists = cursor.getCount() > 0;
+            cursor.close();
+        }
+
+        if (!tableExists) {
+            // Create the table if it doesn't exist
+            String createTableQuery = "CREATE TABLE " + TABLE_NAME + " (" +
+                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_MAINGROUP + " TEXT, " +
+                    COLUMN_SUBGROUP + " TEXT, " +
+                    COLUMN_POWERNUMBER + " TEXT, " +
+                    COLUMN_POWERNAME + " TEXT, " +
+                    COLUMN_LON + " REAL, " +
+                    COLUMN_LAT + " REAL, " +
+                    COLUMN_ADDRESS + " TEXT " +
+                    ")";
+            db.execSQL(createTableQuery);
+        }
+//        db.execSQL(CREATE_TABLE);
     }
 
     @Override
@@ -102,29 +127,36 @@ public class TMapDBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+
     public List<Location> getAllLocations() {
         List<Location> locationList = new ArrayList<>();
+
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+
+        Log.d("MyApp", "getAllLocations() - 데이터 개수: " + cursor.getCount());
 
 
         if (cursor.moveToFirst()) {
             do {
                 Location location = new Location("");
                 /*** cursor.getColumnindex() 선언 시 자료형이 달라서 그냥 하드코딩 함*/
-                location.setLatitude(cursor.getDouble(5));  // 5번 : lat 컬럼 위치
-                location.setLongitude(cursor.getDouble(6)); // 6번 : lon 컬럼 위치
+//                location.setLatitude(cursor.getDouble(5));  // 5번 : lat 컬럼 위치
+//                location.setLongitude(cursor.getDouble(6)); // 6번 : lon 컬럼 위치
+                location.setLatitude(cursor.getDouble(cursor.getColumnIndex(COLUMN_LAT)));  // 5번 : lat 컬럼 위치
+                location.setLongitude(cursor.getDouble(cursor.getColumnIndex(COLUMN_LON))); // 6번 : lon 컬럼 위치
                 locationList.add(location);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
 
-
         return locationList;
     }
+
 }
+
 
 
 
@@ -140,7 +172,7 @@ public class TMapDBHelper extends SQLiteOpenHelper {
 //
 //
 //    // DB 경로
-////    private static String DB_PATH = "/data/data/com.example.mainapp/assets/ICT 설비점검.db";
+////    private static String DB_PATH = "/data/data/com.example.mainapp/assets/ICT 설비점검(기존).db";
 //
 //    // 테이블 정보
 //    public static String TABLE_NAME = "navi";

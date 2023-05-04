@@ -54,27 +54,106 @@ public class DataCursorAdapter_result extends RecyclerView.Adapter<DataCursorAda
             return;
         }
 
+        String mainarea = mCursor.getString(mCursor.getColumnIndexOrThrow("mainarea"));
+
         // 커서에서 데이터를 가져와서 뷰에 설정
         String subarea = mCursor.getString(mCursor.getColumnIndexOrThrow("subarea"));
-
         holder.subareaTextView.setText(subarea);
 
+        if(mainarea.equals("해빙기")) {
+            if (subarea.equals("보안감시설비")) {
+                Cursor subCursor = mDBHelper.getDataHaebinggiBoanSub();
+                DataCursorAdapter_result_sub subareaAdapter = new DataCursorAdapter_result_sub(mContext, subCursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter);
+            } else if (subarea.equals("무선통신설비")) {
+                Cursor sub2Cursor = mDBHelper.getDataHaebinggiMuseonSub();
+                DataCursorAdapter_result_sub subareaAdapter2 = new DataCursorAdapter_result_sub(mContext, sub2Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter2);
+            }else if (subarea.equals("광전송장치")) {
+                Cursor sub3Cursor = mDBHelper.getDataHaebinggiGwangSub();
+                DataCursorAdapter_result_sub subareaAdapter3 = new DataCursorAdapter_result_sub(mContext, sub3Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter3);
+            }else if (subarea.equals("ICT실")) {
+                Cursor sub4Cursor = mDBHelper.getDataHaebinggiICTSub();
+                DataCursorAdapter_result_sub subareaAdapter4 = new DataCursorAdapter_result_sub(mContext, sub4Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter4);
+            }
 
-        // 하위 리사이클러뷰 어댑터 설정
-//        List<Cursor> cursorList = new ArrayList<>();
-//        cursorList.add(mDBHelper.getDataSub1_1());
-//        cursorList.add(mDBHelper.getDataSub1_2());
-        Cursor subCursor = mDBHelper.getDataSub1_2();
 
-//        // 중분류 아이디 가져오기
-//        int subcategoryId = mCursor.getInt(mCursor.getColumnIndexOrThrow("id"));
-//
-//        // subcategoryId를 기준으로 item 테이블에서 데이터 가져오기
-//        Cursor itemCursor = mDBHelper.getItemsBySubcategoryId(subcategoryId);
+        }else if(mainarea.equals("여름철")){
+            if (subarea.equals("계통운영센터")) {
+                Cursor subCursor = mDBHelper.getDataYeouremcheolGyetongSub();
+                DataCursorAdapter_result_sub subareaAdapter = new DataCursorAdapter_result_sub(mContext, subCursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter);
+            } else if (subarea.equals("전력제어설비")) {
+                Cursor sub2Cursor = mDBHelper.getDataYeouremcheolJeonryeokSub();
+                DataCursorAdapter_result_sub subareaAdapter2 = new DataCursorAdapter_result_sub(mContext, sub2Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter2);
+            }else if (subarea.equals("무선통신설비")) {
+                Cursor sub3Cursor = mDBHelper.getDataYeouremcheolMuseonSub();
+                DataCursorAdapter_result_sub subareaAdapter3 = new DataCursorAdapter_result_sub(mContext, sub3Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter3);
+            }else if (subarea.equals("광통신설비")) {
+                Cursor sub4Cursor = mDBHelper.getDataYeouremcheolGwangSub();
+                DataCursorAdapter_result_sub subareaAdapter4 = new DataCursorAdapter_result_sub(mContext, sub4Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter4);
+            }else if (subarea.equals("비상통신설비")) {
+                Cursor sub5Cursor = mDBHelper.getDataYeouremcheolBisangSub();
+                DataCursorAdapter_result_sub subareaAdapter5 = new DataCursorAdapter_result_sub(mContext, sub5Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter5);
+            }else if (subarea.equals("전력구통신")) {
+                Cursor sub6Cursor = mDBHelper.getDataYeouremcheolJeonryeokguSub();
+                DataCursorAdapter_result_sub subareaAdapter6 = new DataCursorAdapter_result_sub(mContext, sub6Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter6);
+            }else if (subarea.equals("전원 및 공조설비")) {
+                Cursor sub7Cursor = mDBHelper.getDataYeouremcheolJeonwonSub();
+                DataCursorAdapter_result_sub subareaAdapter7 = new DataCursorAdapter_result_sub(mContext, sub7Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter7);
+            }else if (subarea.equals("ICT실")) {
+                Cursor sub8Cursor = mDBHelper.getDataYeouremcheolICTSub();
+                DataCursorAdapter_result_sub subareaAdapter8 = new DataCursorAdapter_result_sub(mContext, sub8Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter8);
+            }
 
 
-        DataCursorAdapter_result_sub subareaAdapter = new DataCursorAdapter_result_sub(mContext, subCursor);
-        holder.subareaRecyclerView.setAdapter(subareaAdapter);
+        }else if(mainarea.equals("추석")){
+            if (subarea.equals("보안감시설비")) {
+                Cursor subCursor = mDBHelper.getDataChuseokBoanSub();
+                DataCursorAdapter_result_sub subareaAdapter = new DataCursorAdapter_result_sub(mContext, subCursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter);
+            } else if (subarea.equals("전원설비 · ICT실")) {
+                Cursor sub2Cursor = mDBHelper.getDataChuseokJeonwonSub();
+                DataCursorAdapter_result_sub subareaAdapter2 = new DataCursorAdapter_result_sub(mContext, sub2Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter2);
+            }else if (subarea.equals("비상통신설비")) {
+                Cursor sub2Cursor = mDBHelper.getDataChuseokBisangSub();
+                DataCursorAdapter_result_sub subareaAdapter3 = new DataCursorAdapter_result_sub(mContext, sub2Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter3);
+            }
+
+        }else if(mainarea.equals("겨울철")){
+            if (subarea.equals("전력제어설비")) {
+                Cursor subCursor = mDBHelper.getDataGyeoulcheolJeonryeokSub();
+                DataCursorAdapter_result_sub subareaAdapter = new DataCursorAdapter_result_sub(mContext, subCursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter);
+            } else if (subarea.equals("전력구통신")) {
+                Cursor sub2Cursor = mDBHelper.getDataGyeoulcheolJeonryeokguSub();
+                DataCursorAdapter_result_sub subareaAdapter2 = new DataCursorAdapter_result_sub(mContext, sub2Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter2);
+            }else if (subarea.equals("비상통신설비")) {
+                Cursor sub3Cursor = mDBHelper.getDataGyeoulcheolBisangSub();
+                DataCursorAdapter_result_sub subareaAdapter3 = new DataCursorAdapter_result_sub(mContext, sub3Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter3);
+            }else if (subarea.equals("보안감시설비")) {
+                Cursor sub4Cursor = mDBHelper.getDataGyeoulcheolBoanSub();
+                DataCursorAdapter_result_sub subareaAdapter4 = new DataCursorAdapter_result_sub(mContext, sub4Cursor);
+                holder.subareaRecyclerView.setAdapter(subareaAdapter4);
+            }
+
+        }
+
+
+
 
     }
 

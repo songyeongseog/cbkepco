@@ -5,17 +5,31 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <TextView
+        android:id="@+id/dialog_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="특이사항 입력"
+        android:background="#002AFF"
+        android:textSize="25sp"
+        android:textColor="#FFFFFF"
+        />
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/edit_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:hint="특이사항을 입력하세요"/>
+            android:layout_weight="2"
+            android:hint="특이사항을 입력하세요"
+            android:textSize="25sp"/>
 
         <ImageButton
             android:id="@+id/btn_upload"
@@ -29,14 +43,15 @@
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:backgroundTint="#2196F3"
         android:text="저장 및 닫기"
         android:textSize="20sp"/>
 
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:scaleType="centerInside"/>
+<!--    <ImageView-->
+<!--        android:id="@+id/image_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="16dp"-->
+<!--        android:scaleType="centerInside"/>-->
 </LinearLayout>

@@ -48,15 +48,15 @@ public class Fragment2 extends Fragment {
 
         mDBHelper = new DBHelper(getContext());
 
-        // 데이터베이스를 열고 커서를 가져옴
-        Cursor cursor = mDBHelper.getData2();
-
-        Log.d("getData1()", String.valueOf(mDBHelper.getData2()));
-        Log.d("프래그먼트", String.valueOf(cursor));
-
-        // 어댑터를 생성하고 커서를 전달하여 데이터를 로드
-
-        mAdapter = new DataCursorAdapter(getContext(), cursor);
+//        // 데이터베이스를 열고 커서를 가져옴
+//        Cursor cursor = mDBHelper.getData2();
+//
+//        Log.d("getData1()", String.valueOf(mDBHelper.getData2()));
+//        Log.d("프래그먼트", String.valueOf(cursor));
+//
+//        // 어댑터를 생성하고 커서를 전달하여 데이터를 로드
+//
+//        mAdapter = new DataCursorAdapter(getContext(), cursor);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;

@@ -11,25 +11,33 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-<!--    <meta-data-->
-<!--        android:name="com.kakao.sdk.AppKey"-->
-<!--        android:value="2b58ed4fe9ee73631b1069dee03c7de7" />-->
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.MainApp">
+        <activity
+            android:name=".ResultDrawView"
+            android:exported="false" />
         <!-- android:requestLegacyExternalStorage="true" -->
         <activity android:name=".MainActivity" />
-        <activity android:name=".SubActivity1" />
-        <activity android:name=".SubActivity2" />
-        <activity android:name=".SubActivity3" />
+        <activity android:name=".Activity_Haebinggi" />
+        <activity android:name=".Activity_Yeoreumcheol" />
+        <activity android:name=".Activity_Chuseok" />
+        <activity android:name=".Activity_Gyeoulcheol" />
         <activity android:name=".FragmentActivity1" />
-        <activity android:name=".FragmentActivity_test" />
+        <activity android:name=".FragmentActivity_Haebinggi" />
+        <activity android:name=".FragmentActivity_Yeoreumcheol" />
+        <activity android:name=".FragmentActivity_Chuseok" />
+        <activity android:name=".FragmentActivity_Gyeoulcheol" />
         <activity android:name=".MapMainActivity" />
         <activity android:name=".MapActivity" />
+        <activity android:name=".ResultActivity_Haebinggi" />
+        <activity android:name=".ResultActivity_Yeoreumcheol" />
+        <activity android:name=".ResultActivity_Chuseok" />
+        <activity android:name=".ResultActivity_Gyeoulcheol" />
+        <activity android:name=".CustomDrawView" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"

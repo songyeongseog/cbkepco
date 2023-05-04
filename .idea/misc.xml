@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/background_splash.xml" value="0.2" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/border_image.xml" value="0.2" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/camera_selector.xml" value="0.114453125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector.xml" value="0.114453125" />
@@ -19,52 +20,74 @@
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector2_5.xml" value="0.114453125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector2_6.xml" value="0.114453125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector2_7.xml" value="0.114453125" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector2_8.xml" value="0.168125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector3_1.xml" value="0.114453125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector3_2.xml" value="0.114453125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector3_3.xml" value="0.114453125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector3_4.xml" value="0.114453125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector3_5.xml" value="0.114453125" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector4_1.xml" value="0.176875" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector4_2.xml" value="0.176875" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector4_3.xml" value="0.176875" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/imagebutton_selector4_4.xml" value="0.176875" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/mainbutton_selector1_1.xml" value="0.114453125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/mainbutton_selector1_2.xml" value="0.123828125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/mainbutton_selector1_3.xml" value="0.114453125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/drawable/mainbutton_selector1_4.xml" value="0.114453125" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_chuseok.xml" value="0.11200000000000002" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_draw_view.xml" value="0.190234375" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_gyeoulcheol.xml" value="0.126953125" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_haebinggi.xml" value="0.117578125" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_item_result.xml" value="0.125" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_item_result_sub.xml" value="0.115625" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_item_result_sub_sub.xml" value="0.176" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_main.xml" value="0.12239583333333333" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_map2.xml" value="0.117578125" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_result1.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_selcetpage.xml" value="0.176" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_selecetpage.xml" value="0.152" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_selecetpage_1.xml" value="0.2" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_selecetpage_2.xml" value="0.2" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_selecetpage_3.xml" value="0.2" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_tab1.xml" value="0.2" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_yeoreumcheol.xml" value="0.1" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/chuseok_activity.xml" value="0.117578125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/content_map2.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/customDialog.xml" value="0.264" />
-        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/custom_dialog.xml" value="0.264" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/custom_dialog.xml" value="0.176" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/database_layout.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/dialog.xml" value="0.10416666666666667" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment1.xml" value="0.1" />
-        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment1_test.xml" value="0.10234375" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment1_test.xml" value="0.2" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment2.xml" value="0.1328125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment3.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment4.xml" value="0.1203125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_item.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_item_list.xml" value="0.4" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_list.xml" value="0.154375" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_scrolling.xml" value="0.1023725834797891" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_tab.xml" value="0.12135416666666667" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_tab1.xml" value="0.15185185185185185" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_tab_activity1.xml" value="0.10677083333333333" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_tab_chuseok.xml" value="0.1" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_tab_gyeoulcheol.xml" value="0.1" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_tab_haebinggi.xml" value="0.1" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/fragment_tab_yeoreumcheol.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/frgment3.xml" value="0.1328125" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/haebinggi_activity.xml" value="0.117578125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/map_main.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/nav_header_map2.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recycler_main.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_item.xml" value="0.2" />
-        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_item_result.xml" value="0.2" />
-        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_item_result2.xml" value="0.111328125" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_item_result.xml" value="0.176" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_item_result2.xml" value="0.264" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_item_result_sub.xml" value="0.2" />
-        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_item_result_sub_sub.xml" value="0.2" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_item_result_sub_sub.xml" value="0.136" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_main.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_main_result.xml" value="0.111328125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/result_dialog.xml" value="0.32038834951456313" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/result_draw_view.xml" value="0.2" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/splash.xml" value="0.16" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/style.xml" value="0.12239583333333333" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/tabbar.xml" value="0.1" />

@@ -20,12 +20,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import android.Manifest;
+import android.widget.TextView;
 
 import androidx.core.content.FileProvider;
 
@@ -50,6 +52,7 @@ public class CustomDialog extends Dialog implements
     public ImageButton btnUpload;
     public Button saveButton;
     public EditText editText;
+    public TextView textView;
     public ImageView imageView;
 
 
@@ -85,6 +88,7 @@ public class CustomDialog extends Dialog implements
         this.detailarea = detailarea;
         this.list = list;
 
+
 //        this.imageName = imageName;
 //        this.result = result;
 
@@ -99,13 +103,25 @@ public class CustomDialog extends Dialog implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        final Dialog dialog = new Dialog(mContext);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.custom_dialog);
 
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+
+        params.width = 700;
+        params.height = 450;
+//        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        getWindow().setAttributes(params);
+
         btnUpload = findViewById(R.id.btn_upload);
         editText = findViewById(R.id.edit_text);
+        textView = findViewById(R.id.dialog_text);
 
-        imageView = findViewById(R.id.image_view);
+//        imageView = findViewById(R.id.image_view);
 
         saveButton = findViewById(R.id.saveButton);
         btnUpload.setOnClickListener(this);
@@ -122,8 +138,6 @@ public class CustomDialog extends Dialog implements
         switch (v.getId()) {
             case R.id.btn_upload:
                 // 이미지 업로드 버튼 클릭 시 동작
-                // 사진촬영 및 갤러리를 불러오는 코드를 구현해야함
-                // TODO: 카메라 촬영 기능 구현
 
                 // 카메라 권한이 허용되어 있는지 확인
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -136,6 +150,7 @@ public class CustomDialog extends Dialog implements
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 takePictureIntent.resolveActivity(mContext.getPackageManager());
                 if (takePictureIntent.resolveActivity(mContext.getPackageManager()) != null) {
+
                     // 이미지 파일 생성
                     try {
                         file = createImageFile();
@@ -196,13 +211,12 @@ public class CustomDialog extends Dialog implements
     // 이미지 파일을 생성하는 메소드
     private File createImageFile() throws Exception {
 
-
 //        String test = mCursor.getString(mCursor.getColumnIndexOrThrow("list"));
 //        Log.d("test", String.valueOf(test));
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         // 파일명에다가 해당 항목에 대한 text 값을 받아야 함.
         /// 경로명 : storage/self/primary/Android/data/com.example.mainapp/files/Pictures/JPEG_20230308_173648_1658900543.jpg
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        String imageFileName = "설비점검 사진" + timeStamp + "_";
         File storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 //        Log.d("이미지 경로", String.valueOf(storageDir));
         File imageFile = File.createTempFile(imageFileName, ".jpg", storageDir);

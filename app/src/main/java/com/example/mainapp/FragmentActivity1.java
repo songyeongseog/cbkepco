@@ -25,7 +25,7 @@ public class FragmentActivity1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_tab);
+        setContentView(R.layout.fragment_tab_haebinggi);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

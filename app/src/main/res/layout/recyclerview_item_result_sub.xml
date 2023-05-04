@@ -9,9 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#FFFFFFFF"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="0dp"
         app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="false"
+        android:padding="0dp">>
         <!--        android:layout_marginBottom="5dp">-->
 
 
@@ -31,8 +32,8 @@
                     android:text="중분류"
                     android:layout_marginLeft="20dp"
                     android:gravity="left"
-                    android:textColor="#B5616161"
-                    android:textSize="20sp" />
+                    android:textColor="#B57A3B3B"
+                    android:textSize="23sp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

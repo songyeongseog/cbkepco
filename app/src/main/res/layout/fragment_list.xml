@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragment_Haebinggi_Boan">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_result"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+<!--        <Button-->
+<!--            android:id="@+id/frgmentBtn1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="다음 페이지"-->
+<!--            android:textSize="25sp"-->
+<!--            android:layout_gravity="center_horizontal"/>-->
+<!--        <Button-->
+<!--            android:id="@+id/frgmentBtn2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="50dp"-->
+<!--            android:text="홈화면"-->
+<!--            android:textSize="25sp"-->
+<!--            android:layout_gravity="center_horizontal"/>-->
+        <Button
+            android:id="@+id/frgmentBtn3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="입력결과 조회"
+            android:textSize="25sp"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+</LinearLayout>
+

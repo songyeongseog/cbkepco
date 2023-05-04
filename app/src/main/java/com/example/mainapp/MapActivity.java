@@ -37,7 +37,6 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tmap);
-
         LinearLayout linearLayoutTmap = (LinearLayout) findViewById(R.id.linearLayoutTmap);
         tmapview = new TMapView(this);
         tmapview.setSKTMapApiKey(tMapApiKey);
@@ -54,12 +53,25 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         tMapGPS.setProvider(tMapGPS.NETWORK_PROVIDER);  // 건물에 있으면 gps가 안되는 듯 -> 이럴경우 network로 받아오는게 나음
         tMapGPS.OpenGps();
 
+
+
         dbHelper = new TMapDBHelper(this);
         locationList = dbHelper.getAllLocations();
+
+        // DB에서 가져온 위치 데이터를 마커로 표시하기
+        for (Location loc : locationList) {
+            TMapPoint tMapPoint = new TMapPoint(loc.getLatitude(), loc.getLongitude());
+            TMapMarkerItem markerItem = new TMapMarkerItem();
+            Bitmap markerImage = BitmapFactory.decodeResource(getResources(),R.drawable.marker);
+            markerItem.setTMapPoint(tMapPoint);
+            markerItem.setVisible(TMapMarkerItem.VISIBLE);
+            markerItem.setIcon(markerImage);
+            markerItem.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
+            tmapview.addMarkerItem("marker", markerItem);
+        }
+        Log.d("DB 확인",String.valueOf(locationList));
 //        tmapview.invalidate();  // 강제로 맵을 다시그려주는 메소드 -> 마커가 추가되거나 삭제되면 메소드를 호출해야 함.
 
-//        tMapGPS.setProvider(tMapGPS.NETWORK_PROVIDER);
-//        tMapGPS.OpenGps();
     }
     @Override
     public void onLocationChange(Location location) {
@@ -78,19 +90,7 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
             tmapview.setCenterPoint(longitude, latitude, true); // 현재 위치로 이동
         }
 
-        // DB에서 가져온 위치 데이터를 마커로 표시하기
-        for (Location loc : locationList) {
-            TMapPoint tMapPoint = new TMapPoint(loc.getLatitude(), loc.getLongitude());
-            TMapMarkerItem markerItem = new TMapMarkerItem();
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.marker);
-            markerItem.setTMapPoint(tMapPoint);
-            markerItem.setVisible(TMapMarkerItem.VISIBLE);
 
-            markerItem.setIcon(bitmap);
-            markerItem.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
-            tmapview.addMarkerItem("marker", markerItem);
-        }
-        Log.d("마커 데이터", String.valueOf(locationList));
     }
 }
 

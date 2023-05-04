@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:src="@drawable/top_1">
+        </ImageView>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:src="@drawable/top1_1">
+        </ImageView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/sub1_btn1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:scaleType="fitCenter"
+                android:layout_weight="1"
+                android:background="@drawable/imagebutton_selector1_1">
+            </ImageButton>
+
+<!--            <Button-->
+<!--                android:id="@+id/sub1_btn1"-->
+<!--                android:layout_width="140dp"-->
+<!--                android:layout_height="80dp"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:layout_marginRight="20dp"-->
+<!--                android:text="보안감시 설비"-->
+<!--                android:textSize="20sp">-->
+<!--            </Button>-->
+<!--            <Button-->
+<!--                android:id="@+id/sub1_btn2"-->
+<!--                android:layout_width="140dp"-->
+<!--                android:layout_height="80dp"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:layout_marginRight="20dp"-->
+<!--                android:text="무선통신 설비"-->
+<!--                android:textSize="20sp">-->
+<!--            </Button>-->
+            <ImageButton
+                android:id="@+id/sub1_btn2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:scaleType="fitCenter"
+                android:background="@drawable/imagebutton_selector1_2"
+                android:layout_weight="1">
+            </ImageButton>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/sub1_btn3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:scaleType="fitCenter"
+                android:background="@drawable/imagebutton_selector1_3"
+                android:layout_weight="1">
+            </ImageButton>
+
+            <ImageButton
+                android:id="@+id/sub1_btn4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/imagebutton_selector1_4"
+                android:scaleType="fitCenter">
+            </ImageButton>
+        </LinearLayout>
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/sub1_btn5"
+        android:layout_marginTop="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/imagebutton_selector1_5"
+        />
+<!--    <Button-->
+<!--        android:id="@+id/sub1_btn6"-->
+<!--        android:layout_marginTop="80dp"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:text="점검결과 송부"-->
+<!--        android:textSize="20sp"/>-->
+<!--    <Button-->
+<!--        android:id="@+id/sub1_btn5"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_width="140dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:text="뒤로가기"-->
+<!--        android:textSize="20sp">-->
+<!--    </Button>-->
+    <ImageView
+        android:layout_marginTop="50dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:src="@drawable/kepco_ci">
+    </ImageView>
+
+</LinearLayout>
