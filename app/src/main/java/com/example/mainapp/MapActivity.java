@@ -9,14 +9,17 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 
+import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
+import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 
 import java.util.ArrayList;
@@ -58,17 +61,64 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         dbHelper = new TMapDBHelper(this);
         locationList = dbHelper.getAllLocations();
 
+        ArrayList<TMapPoint> alTMapPoint = new ArrayList<TMapPoint>();
+        
+
         // DB에서 가져온 위치 데이터를 마커로 표시하기
-        for (Location loc : locationList) {
+        for (int i = 0; i < locationList.size(); i++) {
+            Location loc = locationList.get(i);
             TMapPoint tMapPoint = new TMapPoint(loc.getLatitude(), loc.getLongitude());
             TMapMarkerItem markerItem = new TMapMarkerItem();
-            Bitmap markerImage = BitmapFactory.decodeResource(getResources(),R.drawable.marker);
+            Bitmap markerImage = BitmapFactory.decodeResource(getResources(), R.drawable.marker2);
+
             markerItem.setTMapPoint(tMapPoint);
             markerItem.setVisible(TMapMarkerItem.VISIBLE);
             markerItem.setIcon(markerImage);
             markerItem.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
-            tmapview.addMarkerItem("marker", markerItem);
+            String markerId = "marker_" + i; // 고유한 마커 식별자 생성
+//            ArrayList<TMapPoint> alTMapPoint = new ArrayList<TMapPoint>();
+            alTMapPoint.add(tMapPoint);
+//
+//            TMapPolyLine tMapPolyLine = new TMapPolyLine();
+//            tMapPolyLine.setLineColor(Color.BLUE);
+//            tMapPolyLine.setLineWidth(2);
+//            for( int j=0; j<alTMapPoint.size(); j++ ) {
+//                tMapPolyLine.addLinePoint( alTMapPoint.get(j) );
+//            }
+//            tmapview.addTMapPolyLine("Line1", tMapPolyLine);
+
+
+            tmapview.addMarkerItem(markerId, markerItem);
+            Log.d("포인트", String.valueOf(tMapPoint));
         }
+
+
+        /***
+         * Tmap api를 사용하여 마커간 선을 만드는 코드
+         */
+        TMapPolyLine tMapPolyLine = new TMapPolyLine();
+        tMapPolyLine.setLineColor(Color.BLUE);
+        tMapPolyLine.setLineWidth(2);
+        for (int j = 0; j < alTMapPoint.size(); j++) {
+            tMapPolyLine.addLinePoint(alTMapPoint.get(j));
+        }
+        tmapview.addTMapPolyLine("Line1", tMapPolyLine);
+
+        /*** 여기까지
+         *
+         */
+//        for (Location loc : locationList) {
+//            TMapPoint tMapPoint = new TMapPoint(loc.getLatitude(), loc.getLongitude());
+//            TMapMarkerItem markerItem = new TMapMarkerItem();
+//            Bitmap markerImage = BitmapFactory.decodeResource(getResources(),R.drawable.marker2);
+//
+//            markerItem.setTMapPoint(tMapPoint);
+//            markerItem.setVisible(TMapMarkerItem.VISIBLE);
+//            markerItem.setIcon(markerImage);
+//            markerItem.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
+//            tmapview.addMarkerItem("marker", markerItem);
+//            Log.d("포인트",String.valueOf(tMapPoint));
+//        }
         Log.d("DB 확인",String.valueOf(locationList));
 //        tmapview.invalidate();  // 강제로 맵을 다시그려주는 메소드 -> 마커가 추가되거나 삭제되면 메소드를 호출해야 함.
 
@@ -89,9 +139,9 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
             tmapview.setSightVisible(true);     // 보고있는 방향 표출
             tmapview.setCenterPoint(longitude, latitude, true); // 현재 위치로 이동
         }
-
-
     }
+
+
 }
 
 
