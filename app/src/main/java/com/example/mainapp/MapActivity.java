@@ -5,29 +5,44 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
+import com.skt.Tmap.TMapInfo;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
+import com.skt.Tmap.TMapTapi;
 import com.skt.Tmap.TMapView;
+import com.skt.Tmap.poi_item.TMapPOIItem;
 
+
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 public class MapActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback {
     TMapGpsManager tMapGPS = null;
-    TMapView tmapview;
+    TMapView tMapView;
     Context context;
 
     private TMapDBHelper dbHelper;
@@ -35,15 +50,19 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
 
     private String tMapApiKey = "VQQGpOnt9S2L8OlXRePml3LvztIGfC2LaZ90P9h0";
 
+    TMapMarkerItem markerItem = new TMapMarkerItem();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tmap);
         LinearLayout linearLayoutTmap = (LinearLayout) findViewById(R.id.linearLayoutTmap);
-        tmapview = new TMapView(this);
-        tmapview.setSKTMapApiKey(tMapApiKey);
-        linearLayoutTmap.addView(tmapview);
+        tMapView = new TMapView(this);
+        tMapView.setSKTMapApiKey(tMapApiKey);
+        linearLayoutTmap.addView(tMapView);
+
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionCheck == PackageManager.PERMISSION_DENIED) { //위치 권한 확인
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
@@ -61,64 +80,181 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         dbHelper = new TMapDBHelper(this);
         locationList = dbHelper.getAllLocations();
 
+
+        markerItem.setAutoCalloutVisible(true);
+
+
         ArrayList<TMapPoint> alTMapPoint = new ArrayList<TMapPoint>();
-        
+
 
         // DB에서 가져온 위치 데이터를 마커로 표시하기
         for (int i = 0; i < locationList.size(); i++) {
             Location loc = locationList.get(i);
             TMapPoint tMapPoint = new TMapPoint(loc.getLatitude(), loc.getLongitude());
-            TMapMarkerItem markerItem = new TMapMarkerItem();
             Bitmap markerImage = BitmapFactory.decodeResource(getResources(), R.drawable.marker2);
 
+            TMapMarkerItem markerItem = new TMapMarkerItem();
             markerItem.setTMapPoint(tMapPoint);
             markerItem.setVisible(TMapMarkerItem.VISIBLE);
             markerItem.setIcon(markerImage);
             markerItem.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
+            markerItem.setCalloutTitle("marker_" + i);  // 마커 제목 설정
+
+            markerItem.setAutoCalloutVisible(true);
             String markerId = "marker_" + i; // 고유한 마커 식별자 생성
-//            ArrayList<TMapPoint> alTMapPoint = new ArrayList<TMapPoint>();
             alTMapPoint.add(tMapPoint);
-//
-//            TMapPolyLine tMapPolyLine = new TMapPolyLine();
-//            tMapPolyLine.setLineColor(Color.BLUE);
-//            tMapPolyLine.setLineWidth(2);
-//            for( int j=0; j<alTMapPoint.size(); j++ ) {
-//                tMapPolyLine.addLinePoint( alTMapPoint.get(j) );
-//            }
-//            tmapview.addTMapPolyLine("Line1", tMapPolyLine);
 
 
-            tmapview.addMarkerItem(markerId, markerItem);
+            tMapView.addMarkerItem(markerId, markerItem);
             Log.d("포인트", String.valueOf(tMapPoint));
         }
+
+        tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
+
+            @Override
+            public boolean onPressUpEvent(ArrayList arrayList, ArrayList poilist, TMapPoint tMapPoint, PointF pointf) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onPressEvent(ArrayList arrayList, ArrayList poilist, TMapPoint point, PointF pointf) {
+
+
+                if (arrayList != null && !arrayList.isEmpty()) {
+                    // 클릭한 마커의 정보를 가져옵니다.
+                    TMapMarkerItem markerItemData = (TMapMarkerItem) arrayList.get(0);
+                    String markerId = markerItemData.getID(); // 마커 ID를 가져옵니다.
+
+
+                    // 마커 ID를 토스트 메시지로 출력합니다.
+                    Toast.makeText(getApplicationContext(), "마커 ID: " + markerId, Toast.LENGTH_SHORT).show();
+
+
+                    //Todo 바텀 다이얼로그 시트 생성
+
+                    // 바텀시트 다이얼로그 생성
+                    BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
+                    // 레이아웃 파일 인플레이션
+                    View view = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_dialog, null);
+                    // 바텀시트 다이얼로그에 레이아웃 설정
+                    bottomSheetDialog.setContentView(view);
+//                    bottomSheetDialog.show();
+
+                }
+                return false;
+            }
+        });
+
+        tMapView.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback() {
+            @Override
+            public void onCalloutRightButton(TMapMarkerItem markerItem) {
+                Log.d("마커ID", markerItem.getID());
+                Toast.makeText(getApplicationContext(), "마커를 클릭했습니다.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
 
         /***
          * Tmap api를 사용하여 마커간 선을 만드는 코드
          */
+
         TMapPolyLine tMapPolyLine = new TMapPolyLine();
-        tMapPolyLine.setLineColor(Color.BLUE);
-        tMapPolyLine.setLineWidth(2);
+        TMapData tMapData = new TMapData();
+
+
+        TMapPoint firstElement = alTMapPoint.get(0);    // DB 내 Top 1 값 가져오기
+        TMapPoint lastElement = alTMapPoint.get(alTMapPoint.size() - 1);    // DB 내 가장 마지막 값 가져오기
+
+        TMapPoint tMapPointStart = new TMapPoint(firstElement.getLatitude(), firstElement.getLongitude());
+        TMapPoint tMapPointEnd = new TMapPoint(lastElement.getLatitude(), lastElement.getLongitude());
+
+        double tMapPointStart_Lat = firstElement.getLatitude();
+        double tMapPointStart_Lon = firstElement.getLongitude();
+        Log.d("시작Lat", String.valueOf(tMapPointStart_Lat));
+        Log.d("시작Lon", String.valueOf(tMapPointStart_Lon));
+
+
+        tMapPolyLine.setLineColor(Color.BLACK);
+        tMapPolyLine.setLineWidth(10);
         for (int j = 0; j < alTMapPoint.size(); j++) {
             tMapPolyLine.addLinePoint(alTMapPoint.get(j));
+            Log.d("시작값", String.valueOf(alTMapPoint.get(0)));
+            Log.d("종료값", String.valueOf(alTMapPoint.get(alTMapPoint.size()-1)));
         }
-        tmapview.addTMapPolyLine("Line1", tMapPolyLine);
+        tMapView.addTMapPolyLine("Line1", tMapPolyLine);
+
+
+
+        try {
+            tMapData.findMultiPointPathData(tMapPointStart, tMapPointEnd, alTMapPoint, 0,
+                    new TMapData.FindPathDataListenerCallback() {
+                        @Override
+                        public void onFindPathData(TMapPolyLine carPolyLine) {
+                            carPolyLine.setLineColor(Color.BLUE);
+                            carPolyLine.setLineWidth(30);
+                            tMapView.setCenterPoint(tMapPointStart_Lon, tMapPointStart_Lat);  // 위치 이동
+                            tMapView.zoomToTMapPoint(tMapPointStart, tMapPointEnd);    // 줌레벨 조정
+                            Log.d("성공2", "성공2");
+                            tMapView.addTMapPath(carPolyLine);
+                        }
+                    });
+        }catch(Exception e) {
+            e.printStackTrace();
+            while(true) {
+                tMapData.findMultiPointPathData(tMapPointStart, tMapPointEnd, alTMapPoint, 0,
+                        new TMapData.FindPathDataListenerCallback() {
+                            @Override
+                            public void onFindPathData(TMapPolyLine carPolyLine) {
+                                carPolyLine.setLineColor(Color.BLUE);
+                                carPolyLine.setLineWidth(30);
+                                tMapView.setCenterPoint(tMapPointStart_Lon, tMapPointStart_Lat);  // 위치 이동
+                                tMapView.zoomToTMapPoint(tMapPointStart, tMapPointEnd);    // 줌레벨 조정
+                                tMapView.addTMapPath(carPolyLine);
+                            }
+                        }
+                );
+                int i = 1;
+
+                if (i == 1) {
+                    break;
+                }
+            }
+            Log.d("실패2","실패2");
+        }
+
+
+
+
+
 
         /*** 여기까지
          *
          */
-//        for (Location loc : locationList) {
-//            TMapPoint tMapPoint = new TMapPoint(loc.getLatitude(), loc.getLongitude());
-//            TMapMarkerItem markerItem = new TMapMarkerItem();
-//            Bitmap markerImage = BitmapFactory.decodeResource(getResources(),R.drawable.marker2);
+
+//        TMapPoint tMapPointStart = new TMapPoint(37.570841, 126.985302); // SKT타워(출발지)
+//        TMapPoint tMapPointEnd = new TMapPoint(37.551135, 126.988205); // N서울타워(목적지)
 //
-//            markerItem.setTMapPoint(tMapPoint);
-//            markerItem.setVisible(TMapMarkerItem.VISIBLE);
-//            markerItem.setIcon(markerImage);
-//            markerItem.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
-//            tmapview.addMarkerItem("marker", markerItem);
-//            Log.d("포인트",String.valueOf(tMapPoint));
+//        try {
+//            tMapData.findPathData(tMapPointStart, tMapPointEnd, new TMapData.FindPathDataListenerCallback() {
+//                @Override
+//                public void onFindPathData(TMapPolyLine resultPolyLine) {
+//                    resultPolyLine.setLineColor(Color.RED);
+//                    resultPolyLine.setLineWidth(30);
+//                    tMapView.addTMapPath(resultPolyLine);
+////                    tMapView.zoomToTMapPoint(tMapPointStart, tMapPointEnd);
+//                    Log.d("성공", "성공");
+//                }
+//            });
+//            Log.d("성공","성공");
+//
+//        }catch(Exception e) {
+//            e.printStackTrace();
+//            Log.d("실패","실패");
 //        }
+
+
         Log.d("DB 확인",String.valueOf(locationList));
 //        tmapview.invalidate();  // 강제로 맵을 다시그려주는 메소드 -> 마커가 추가되거나 삭제되면 메소드를 호출해야 함.
 
@@ -133,190 +269,26 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
 //            double longitude = tMapPointMy.getLongitude();
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
-            tmapview.setLocationPoint(longitude, latitude); // 현재위치로 표시될 좌표의 위도, 경도를 설정
-            tmapview.setIconVisibility(true);
-            tmapview.setCompassMode(true);      // 나침반 모드
-            tmapview.setSightVisible(true);     // 보고있는 방향 표출
-            tmapview.setCenterPoint(longitude, latitude, true); // 현재 위치로 이동
+            tMapView.setLocationPoint(longitude, latitude); // 현재위치로 표시될 좌표의 위도, 경도를 설정
+            tMapView.setIconVisibility(true);
+            tMapView.setCompassMode(true);      // 나침반 모드
+            tMapView.setSightVisible(true);     // 보고있는 방향 표출
+//            tMapView.setCenterPoint(longitude, latitude, true); // 현재 위치로 이동
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TMapMarkerItem markerItem = new TMapMarkerItem();
+
+        markerItem.setAutoCalloutVisible(true);
     }
 
 
 }
 
 
-//package com.example.mainapp;
-//
-//import android.Manifest;
-//import android.content.Context;
-//import android.content.pm.PackageManager;
-//import android.graphics.Bitmap;
-//import android.graphics.BitmapFactory;
-//import android.location.Location;
-//import android.location.LocationListener;
-//import android.location.LocationManager;
-//import android.os.Bundle;
-//import android.util.Log;
-//import android.widget.LinearLayout;
-//import android.widget.Toast;
-//
-//import androidx.annotation.NonNull;
-//import androidx.appcompat.app.AppCompatActivity;
-//import androidx.core.app.ActivityCompat;
-//import androidx.core.content.ContextCompat;
-//
-//import com.skt.Tmap.TMapGpsManager;
-//import com.skt.Tmap.TMapMarkerItem;
-//import com.skt.Tmap.TMapPoint;
-//import com.skt.Tmap.TMapView;
-//
-//import net.daum.mf.map.api.MapPoint;
-//import net.daum.mf.map.api.MapView;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//
-//
-//
-//public class MapActivity extends AppCompatActivity implements LocationListener {
-//
-//    private TMapView tmapview;
-//    private TMapGpsManager tmapgps;
-//    private LocationManager locationManager;
-//    Context context;
-//
-//
-//    private static final int PERMISSIONS_REQUEST_CODE = 100;
-//
-//    // 카카오맵 API 키를 입력합니다.
-//    String tMapApiKey = "VQQGpOnt9S2L8OlXRePml3LvztIGfC2LaZ90P9h0";
-//
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.map_main);
-//
-//
-//
-//        // 위치 권한이 허용되어 있는지 확인합니다.
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//            // 위치 권한을 요청합니다.
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
-//        } else {
-////            // LocationManager 객체 생성
-////            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-////
-////            // 위치 업데이트 요청
-////            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-//
-//            // 위치 권한이 이미 허용된 경우 위치 정보를 받아옵니다.
-//            LinearLayout linearLayout = new LinearLayout(this);
-//            tmapview = new TMapView(this);
-//            tmapview.setSKTMapApiKey(tMapApiKey);       // API 키
-//            tmapview.setLanguage(TMapView.LANGUAGE_KOREAN);     // 언어설정
-//            tmapview.setZoomLevel(18);          // 줌 레벨 (18이 네비로 봤을 때 딱 적당함)
-//            tmapview.setMapType(TMapView.MAPTYPE_STANDARD); // 일반지도
-//
-//
-//            tmapview.setIconVisibility(true);   // 현재위치로 표시될 아이콘을 표시
-//            tmapview.setCompassMode(true);      // 나침반 모드
-//            tmapview.setSightVisible(true);     // 보고있는 방향 표출
-//            tmapview.setTrackingMode(true);
-//
-//
-//
-//
-//            // Todo 좌표값 현재 단말 위치로 함수 받아오기
-//            linearLayout.addView(tmapview);
-//            setContentView(linearLayout);
-//
-//            // GPS 초기화 및 위치 갱신
-//            tmapgps = new TMapGpsManager(this);
-//            tmapgps.setMinTime(1000);
-//            tmapgps.setMinDistance(5);
-//            tmapgps.setProvider(tmapgps.GPS_PROVIDER);
-//            tmapgps.OpenGps();
-//        }
-//
-//
-//    }
-//
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == PERMISSIONS_REQUEST_CODE) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // 위치 권한이 허용된 경우 위치 정보를 받아옵니다.
-//                TMapGpsManager gps = new TMapGpsManager(this);
-//                gps.setMinTime(1000);
-//                gps.setMinDistance(5);
-//                gps.setProvider(gps.GPS_PROVIDER);
-//                gps.OpenGps();
-//
-//            } else {
-//                Toast.makeText(this, "위치 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
-//
-//
-//    @Override
-//    public void onLocationChanged(Location location) {
-//        double lat = location.getLatitude();
-//        double lon = location.getLongitude();
-//        tmapview.setLocationPoint(lat, lon);   // 위치이동
-//        tmapview.setCenterPoint(lat, lon);  // 현재 위치 이동
-//        tmapview.setIconVisibility(true);   // 현재위치로 표시될 아이콘을 표시
-//        tmapview.setCompassMode(true);      // 나침반 모드
-//        tmapview.setSightVisible(true);     // 보고있는 방향 표출
-//        tmapview.setTrackingMode(true);
-//
-//
-////        TMapPoint point = tmapgps.getLocation();
-//
-//    }
-//
-//    @Override
-//    public void onProviderDisabled(String provider) {
-//        // 위치 제공자가 비활성화되었을 때 호출됩니다.
-//    }
-//
-//    @Override
-//    public void onProviderEnabled(String provider) {
-//        // 위치 제공자가 활성화되었을 때 호출됩니다.
-//    }
-//
-//    @Override
-//    public void onStatusChanged(String provider, int status, Bundle extras) {
-//        // 위치 제공자의 상태가 변경되었을 때 호출됩니다.
-//    }
-//
-//
-//    public void tMapMakerCreate(){
-//        TMapMarkerItem markerItem1 = new TMapMarkerItem();
-//
-//        TMapPoint tMapPoint1 = new TMapPoint(37.570841, 126.985302); // SKT타워
-//
-//        // 마커 아이콘
-//        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.pin_r_m_a);
-//
-//        markerItem1.setIcon(bitmap); // 마커 아이콘 지정
-//        markerItem1.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
-//        markerItem1.setTMapPoint( tMapPoint1 ); // 마커의 좌표 지정
-//        markerItem1.setName("SKT타워"); // 마커의 타이틀 지정
-//        tmapview.addMarkerItem("markerItem1", markerItem1); // 지도에 마커 추가
-//
-//        tmapview.setCenterPoint( 126.985302, 37.570841 );
-//
-//    }
-//
-//}
-//
 //
 ///***
 // *

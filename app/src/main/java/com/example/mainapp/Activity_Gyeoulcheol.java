@@ -109,6 +109,32 @@ public class Activity_Gyeoulcheol extends AppCompatActivity {
                 } else {
                     // 파일 접근 코드 -> 이메일 메소드
                     exportDatabaseToCsvAndSendEmail();
+                    Toast emailToast = Toast.makeText(getApplicationContext(), "10초 뒤에 데이터베이스 및 사진정보가 초기화 됩니다", Toast.LENGTH_LONG);
+                    emailToast.show();
+                    try {
+                        Thread.sleep(10000); // 1000 밀리초 = 1초
+                        // 레코드 초기화
+                        db.beginTransaction();  // 데이터 변경 작업 수행
+                        try{
+                            db.execSQL("UPDATE checklist SET result = null, edittext = null, image = null, date = null");
+                            db.setTransactionSuccessful();  // 변경 내용 커밋
+                        }finally {
+                            db.endTransaction();    // 트래젝션 종료
+                            Toast resetToast = Toast.makeText(getApplicationContext(), "데이터베이스 및 사진정보가 등록 후 초기화 되었습니다.", Toast.LENGTH_LONG);
+                            resetToast.show();
+                        }
+                        // 이미지 파일 삭제
+                        String imagePath = "storage/self/primary/Android/data/com.example.mainapp/files/Pictures/";
+                        File imageFile = new File(imagePath);
+                        File[] files = imageFile.listFiles();
+                        if(files != null) {
+                            for (File file : files) {
+                                file.delete();
+                            }
+                        }
+                    } catch (InterruptedException e) {
+                        // 스레드가 중단될 경우 처리할 예외 처리 코드
+                    }
                 }
             }
         });
@@ -116,16 +142,14 @@ public class Activity_Gyeoulcheol extends AppCompatActivity {
     }
 
     public void exportDatabaseToCsvAndSendEmail() {
+
         // 데이터베이스에서 데이터 추출
-        Cursor cursor = db.rawQuery("SELECT * FROM checklist", null);
-        Log.d("점검결과 송부 db목록", String.valueOf(cursor));
-        Log.d("테이블 목록", String.valueOf( db.rawQuery("SELECT * FROM checklist", null)));
+        Cursor cursor = db.rawQuery("SELECT * FROM checklist WHERE mainarea LIKE '%겨울철%'", null);
 
         if (cursor.moveToFirst()) {
             // 커서가 비어있지 않은 경우
             do {
                 // 커서에서 데이터를 추출하여 처리
-                // ...
             } while (cursor.moveToNext());
         } else {
             // 커서가 비어있는 경우
@@ -141,13 +165,14 @@ public class Activity_Gyeoulcheol extends AppCompatActivity {
             StringWriter writer = new StringWriter();
             CSVWriter csvWriter = new CSVWriter(writer);
 
-//            csvWriter.writeNext(cursor.getColumnNames());
             String[] columnNames = cursor.getColumnNames();
             String[] row = new String[columnNames.length];
             for (int i = 0; i < columnNames.length; i++) {
                 row[i] = columnNames[i];
             }
             csvWriter.writeNext(row); // 첫 번째 행에 컬럼명 추가
+
+            cursor.moveToPosition(-1);
             while (cursor.moveToNext()) {
 //                String[] row = new String[cursor.getColumnCount()];
                 for (int i = 0; i < cursor.getColumnCount(); i++) {
@@ -158,7 +183,8 @@ public class Activity_Gyeoulcheol extends AppCompatActivity {
 
             // 파일 저장
             String fileName = "ICT 설비점검 결과.csv";
-            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File path = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+
             File file = new File(path, fileName);
             try {
                 FileOutputStream fos = new FileOutputStream(file);
@@ -170,61 +196,62 @@ public class Activity_Gyeoulcheol extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            // 이메일 보내기
-            Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-            emailIntent.setType("multipart/mixed");
-//            emailIntent.setPackage("mars.nomad.com.powertalk");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]
-                    {"syc0106@kepco.co.kr"});
-//            emailIntent.putExtra(Intent.EXTRA_EMAIL, "syc0106@kepco.co.kr"); // 받는 사람 이메일 (고정 / 일단 송영석 이메일)
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[사업소명] ICT설비점검 결과 송부");  // 메일 제목 (사업소명을 변수로 두고 설정해야함)
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "[사업소명] ICT설비점검 결과입니다.");  // 메일 내용
-            //        Uri uri = Uri.fromFile(file);
-
-            // csv파일 첨부 코드
-//            Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", file);
-//            Log.d("csv", String.valueOf(file));
-//            emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-//            emailIntent.setType("text/csv");
 
 
-//            // 이미지파일 첨부 코드
-//            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES); // 경로를 자동이 아닌 수동으로 지정해줘야 함. 아래코드처럼
+            // 이미지파일 첨부 코드
             File dir = new File("storage/self/primary/Android/data/com.example.mainapp/files/Pictures");
-//            storage/self/primary/Android/data/com.example.mainapp/files/Pictures/JPEG_20230308_173648_1658900543.jpg
-            Log.d("사진", String.valueOf(dir));
+
             // 첨부할 jpg 파일들의 File 객체 리스트 만들기
             File[] files = dir.listFiles(new FilenameFilter() {
                 public boolean accept(File dir, String name) {
                     return name.toLowerCase().endsWith(".jpg");
                 }
             });
-            Log.d("파일", String.valueOf(files));
-            ArrayList<File> fileList = new ArrayList<>(Arrays.asList(files));
-            Log.d("파일리스트", String.valueOf(fileList));
 
-            // File 객체 리스트를 Uri 객체 리스트로 변환하기
-            ArrayList<Uri> uriList = new ArrayList<>();
-            Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", file); // CSV 파일
-            uriList.add(uri);
-            for (File imageFile : fileList) {
-                Uri uri2 = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", imageFile);
-                uriList.add(uri2);
+
+            if (files != null) {
+                Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+                emailIntent.setType("multipart/mixed");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]
+                        {"syc0106@kepco.co.kr"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[사업소명] ICT설비점검 결과 송부");  // 메일 제목 (사업소명을 변수로 두고 설정해야함)
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "[사업소명] ICT설비점검 결과입니다.");  // 메일 내용
+
+                ArrayList<File> fileList = new ArrayList<>(Arrays.asList(files));
+
+                // File 객체 리스트를 Uri 객체 리스트로 변환하기
+                ArrayList<Uri> uriList = new ArrayList<>();
+                Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", file); // CSV 파일
+                uriList.add(uri);
+
+                for (File imageFile : fileList) {
+                    Uri uri2 = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", imageFile);
+                    uriList.add(uri2);
+                }
+
+                emailIntent.setType("image/*");
+                emailIntent.setType("text/csv");
+                emailIntent.putExtra(Intent.EXTRA_STREAM, uriList);
+                startActivity(Intent.createChooser(emailIntent, "ICT 설비점검 결과 메일 보내기"));
+            } else {
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                // csv파일 첨부 코드
+                Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", file);
+
+                emailIntent.setType("text/csv");
+
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]
+                        {"syc0106@kepco.co.kr"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[사업소명] ICT설비점검 결과 송부");  // 메일 제목 (사업소명을 변수로 두고 설정해야함)
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "[사업소명] ICT설비점검 결과입니다.");  // 메일 내용
+                emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                startActivity(Intent.createChooser(emailIntent, "ICT 설비점검 결과 메일 보내기"));
+
             }
-            Log.d("uriList", String.valueOf(uriList));
-
-            emailIntent.setType("image/*");
-            emailIntent.setType("text/csv");
-
-            emailIntent.putExtra(Intent.EXTRA_STREAM, uriList);
-            Log.d("csv2", String.valueOf(file));
-
-
-//            Log.d("uri", String.valueOf(uri));
-            startActivity(Intent.createChooser(emailIntent, "ICT 설비점검 결과 메일 보내기"));
-        } else {
+        }else {
             // cursor가 비어있는 경우 보고서 생성하지 않음
             Toast.makeText(this, "데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+
         }
     }
     @Override

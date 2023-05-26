@@ -18,9 +18,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MainApp">
         <activity
-            android:name=".ResultDrawView"
+            android:name=".BottomSheetDialog"
             android:exported="false" />
-        <!-- android:requestLegacyExternalStorage="true" -->
+        <!-- <activity -->
+        <!-- android:name=".MapActivity" -->
+        <!-- android:exported="true" -->
+        <!-- android:label="@string/title_activity_map2" -->
+        <!-- android:theme="@style/Theme.MainApp.NoActionBar" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+        <activity
+            android:name=".ResultDrawView"
+            android:exported="false" /> <!-- android:requestLegacyExternalStorage="true" -->
         <activity android:name=".MainActivity" />
         <activity android:name=".Activity_Haebinggi" />
         <activity android:name=".Activity_Yeoreumcheol" />

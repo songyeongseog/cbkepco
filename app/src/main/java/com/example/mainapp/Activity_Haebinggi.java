@@ -106,18 +106,6 @@ public class Activity_Haebinggi extends AppCompatActivity {
         });
 
 
-//        // 뒤로가기 버튼(MainActivity 이동) --> 처음 설비점검 선택하는 화면
-//        Button sub1_btn5 = (Button) findViewById(R.id.sub1_btn5);
-//        sub1_btn5.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent5 = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivity(intent5);
-//            }
-//        });
-
-
         // 점검결과 송부 버튼
         ImageView sub1_btn5 = (ImageView) findViewById(R.id.sub1_btn5);
         sub1_btn5.setOnClickListener(new View.OnClickListener() {
@@ -164,16 +152,13 @@ public class Activity_Haebinggi extends AppCompatActivity {
 
     public void exportDatabaseToCsvAndSendEmail() {
 
-        // 데이터베이스에서 데이터 추출
-        Cursor cursor = db.rawQuery("SELECT * FROM checklist", null);
-//        Log.d("점검결과 송부 db목록", String.valueOf(cursor));
-//        Log.d("테이블 목록", String.valueOf( db.rawQuery("SELECT * FROM checklist", null)));
+        // 데이터베이스에서 해빙기에 대한 모든 데이터 추출
+        Cursor cursor = db.rawQuery("SELECT * FROM checklist WHERE mainarea LIKE '%해빙기%'", null);
 
         if (cursor.moveToFirst()) {
             // 커서가 비어있지 않은 경우
             do {
                 // 커서에서 데이터를 추출하여 처리
-                // ...
             } while (cursor.moveToNext());
         } else {
             // 커서가 비어있는 경우
@@ -189,13 +174,14 @@ public class Activity_Haebinggi extends AppCompatActivity {
             StringWriter writer = new StringWriter();
             CSVWriter csvWriter = new CSVWriter(writer);
 
-//            csvWriter.writeNext(cursor.getColumnNames());
             String[] columnNames = cursor.getColumnNames();
             String[] row = new String[columnNames.length];
             for (int i = 0; i < columnNames.length; i++) {
                 row[i] = columnNames[i];
             }
             csvWriter.writeNext(row); // 첫 번째 행에 컬럼명 추가
+
+            cursor.moveToPosition(-1);
             while (cursor.moveToNext()) {
 //                String[] row = new String[cursor.getColumnCount()];
                 for (int i = 0; i < cursor.getColumnCount(); i++) {
@@ -208,9 +194,6 @@ public class Activity_Haebinggi extends AppCompatActivity {
             String fileName = "ICT 설비점검 결과.csv";
             File path = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
 
-
-            Log.d("변경 패치", String.valueOf(path));
-//            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             File file = new File(path, fileName);
             try {
                 FileOutputStream fos = new FileOutputStream(file);
@@ -224,9 +207,7 @@ public class Activity_Haebinggi extends AppCompatActivity {
 
 
 
-//            // 이미지파일 첨부 코드
-//            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES); // 경로를 자동이 아닌 수동으로 지정해줘야 함. 아래코드처럼
-            /***/
+            // 이미지파일 첨부 코드
             File dir = new File("storage/self/primary/Android/data/com.example.mainapp/files/Pictures");
 
             // 첨부할 jpg 파일들의 File 객체 리스트 만들기
@@ -246,17 +227,17 @@ public class Activity_Haebinggi extends AppCompatActivity {
                 emailIntent.putExtra(Intent.EXTRA_TEXT, "[사업소명] ICT설비점검 결과입니다.");  // 메일 내용
 
                 ArrayList<File> fileList = new ArrayList<>(Arrays.asList(files));
+
                 // File 객체 리스트를 Uri 객체 리스트로 변환하기
                 ArrayList<Uri> uriList = new ArrayList<>();
                 Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", file); // CSV 파일
                 uriList.add(uri);
 
-//                if (files != null) {
                     for (File imageFile : fileList) {
                         Uri uri2 = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", imageFile);
                         uriList.add(uri2);
                     }
-//                }
+
                 emailIntent.setType("image/*");
                 emailIntent.setType("text/csv");
                 emailIntent.putExtra(Intent.EXTRA_STREAM, uriList);
@@ -273,7 +254,6 @@ public class Activity_Haebinggi extends AppCompatActivity {
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[사업소명] ICT설비점검 결과 송부");  // 메일 제목 (사업소명을 변수로 두고 설정해야함)
                 emailIntent.putExtra(Intent.EXTRA_TEXT, "[사업소명] ICT설비점검 결과입니다.");  // 메일 내용
                 emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-//
             startActivity(Intent.createChooser(emailIntent, "ICT 설비점검 결과 메일 보내기"));
 
             }
@@ -281,40 +261,9 @@ public class Activity_Haebinggi extends AppCompatActivity {
                 // cursor가 비어있는 경우 보고서 생성하지 않음
                 Toast.makeText(this, "데이터가 없습니다.", Toast.LENGTH_SHORT).show();
 
-            /***
-             *
-             */
-
-//            ArrayList<File> fileList = new ArrayList<>(Arrays.asList(files));
-//            // File 객체 리스트를 Uri 객체 리스트로 변환하기
-//            ArrayList<Uri> uriList = new ArrayList<>();
-//            Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", file); // CSV 파일
-//            uriList.add(uri);
-//            if (files != null) {
-//                for (File imageFile : fileList) {
-//                    Uri uri2 = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", imageFile);
-//                    uriList.add(uri2);
-//                }
-//            }
-////            Log.d("uriList", String.valueOf(uriList));
-//            emailIntent.setType("image/*");
-//            emailIntent.setType("text/csv");
-//                emailIntent.putExtra(Intent.EXTRA_STREAM, uriList);
-////            Log.d("csv2", String.valueOf(file));
-//            startActivity(Intent.createChooser(emailIntent, "ICT 설비점검 결과 메일 보내기"));
-//        } else {
-//            // cursor가 비어있는 경우 보고서 생성하지 않음
-//            Toast.makeText(this, "데이터가 없습니다.", Toast.LENGTH_SHORT).show();
-//        }
         }
     }
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//            // 파일 접근 코드
-//        }
-//    }
+
 }
 
 
