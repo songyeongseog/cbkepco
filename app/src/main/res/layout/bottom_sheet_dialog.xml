@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/bt_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="특이사항 입력"
+            android:background="#002AFF"
+            android:textSize="25sp"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/bt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="선로명"
+            android:background="#FFFFFF"
+            android:textSize="25sp"
+            android:textColor="#000000" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
