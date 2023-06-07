@@ -1,16 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <android.widget.LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.mainapp.MapActivity">
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayoutTmap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="com.example.mainapp.MapActivity">
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/navi_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#000000"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="점검선택"/>
 
         <LinearLayout
             android:id="@+id/linearLayoutTmap"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-        </LinearLayout>
-    </android.widget.LinearLayout>
+            android:orientation="vertical"></LinearLayout>
+
+    </RelativeLayout>
+
+    <include layout="@layout/navi_draw" />
+</androidx.drawerlayout.widget.DrawerLayout>
+
+
+<!--
+★ RelativeLayout 설명 : https://recipes4dev.tistory.com/126
+-->
+
+
+<!--    <android.widget.LinearLayout-->
+<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:tools="http://schemas.android.com/tools"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        tools:context="com.example.mainapp.MapActivity">-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linearLayoutTmap"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical">-->
+<!--        </LinearLayout>-->
+<!--    </android.widget.LinearLayout>-->

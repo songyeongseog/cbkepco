@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MainApp">
         <activity
-            android:name=".BottomSheetDialog"
+            android:name=".ResultBottomSheetDialog"
             android:exported="false" />
         <!-- <activity -->
         <!-- android:name=".MapActivity" -->

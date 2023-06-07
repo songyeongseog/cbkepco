@@ -51,6 +51,8 @@
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_selecetpage_3.xml" value="0.2" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_tab1.xml" value="0.2" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/activity_yeoreumcheol.xml" value="0.1" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/bottom_sheet_layout.xml" value="0.2" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/bottomsheet_dialog.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/chuseok_activity.xml" value="0.117578125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/content_map2.xml" value="0.1" />
@@ -79,6 +81,7 @@
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/haebinggi_activity.xml" value="0.117578125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/map_main.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/nav_header_map2.xml" value="0.1" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/navi_draw.xml" value="0.264" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recycler_main.xml" value="0.1" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_item.xml" value="0.2" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/recyclerview_item_result.xml" value="0.176" />
@@ -92,7 +95,7 @@
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/splash.xml" value="0.16" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/style.xml" value="0.12239583333333333" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/tabbar.xml" value="0.1" />
-        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/tmap.xml" value="0.190234375" />
+        <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/layout/tmap.xml" value="0.176" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/menu/activity_main_drawer.xml" value="0.4" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/menu/map_activity2.xml" value="0.117578125" />
         <entry key="..\:/Users/AMI PC#2/AndroidStudioProjects/MainApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14739583333333334" />

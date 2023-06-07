@@ -1,13 +1,17 @@
 package com.example.mainapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -16,14 +20,19 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
-import com.skt.Tmap.TMapInfo;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
@@ -32,15 +41,11 @@ import com.skt.Tmap.TMapView;
 import com.skt.Tmap.poi_item.TMapPOIItem;
 
 
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-public class MapActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback {
+public class MapActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback, ResultBottomSheetDialog.BottomSheetListener {
     TMapGpsManager tMapGPS = null;
     TMapView tMapView;
     Context context;
@@ -50,6 +55,11 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
 
     private String tMapApiKey = "VQQGpOnt9S2L8OlXRePml3LvztIGfC2LaZ90P9h0";
 
+
+
+    private DrawerLayout drawerLayout;
+    private View drawerView;
+
     TMapMarkerItem markerItem = new TMapMarkerItem();
 
 
@@ -58,9 +68,106 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tmap);
+
+
+        /*** ★★★ 네비게이션 관련 ★★★*/
+        // todo 여기서부턴 네비게이션 코드
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerView = (View)findViewById(R.id.drawer);
+
+        Button navi_open = findViewById(R.id.navi_open);
+        navi_open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(drawerView);
+            }
+        });
+
+//        drawerLayout.setDrawerListener(listener);
+        View drawerView = (View) findViewById(R.id.drawer_layout);
+        drawerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
+        // 빈공간을 클릭 시 네비게이션 닫히기
+        drawerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    float x = event.getX();
+                    float y = event.getY();
+                    if (x > drawerView.getWidth() || y > drawerView.getHeight()) {
+                        drawerLayout.closeDrawer(drawerView);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        /*** kepCIT 드롭다운 메뉴 */
+
+        Spinner kepCIT_spinner = findViewById(R.id.spinner_kepCIT);
+
+
+        // 드롭다운에 표시할 항목 데이터
+        String[] kepCIT_items = {"점검구간을 선택하세요.","직할#1", "직할#2", "동청주#1", "동청주#2", "진천#1", "진천#2", "보은#1", "보은#2",
+                            "옥천#1", "옥천#2", "증평괴산#1","증평괴산#2", "괴산S/C", "음성#1", "음성#2", "영동#1", "영동#2",
+                            "충주#1", "충주#2", "제천#1", "제천#2", "단양#1", "단양#2", "수안보#1", "수안보#2", "자재창고"};
+
+        // 어댑터 생성
+        ArrayAdapter<String> kepCIT_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, kepCIT_items);
+
+        // 어댑터 설정
+        kepCIT_spinner.setAdapter(kepCIT_adapter);
+
+        kepCIT_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = (String) parent.getItemAtPosition(position);
+
+                // 선택된 값에 따라 원하는 동작 수행
+                if (selectedItem.equals("직할#1")) {
+                    Toast.makeText(MapActivity.this, "쿼리 준비 중입니다.", Toast.LENGTH_SHORT).show();
+                } else if (selectedItem.equals("직할#2")) {
+                    Toast.makeText(MapActivity.this, "쿼리 준비 중입니다.", Toast.LENGTH_SHORT).show();
+                } else if (selectedItem.equals("동청주#1")) {
+                    locationList = dbHelper.getTestLocations();
+
+                } else if (selectedItem.equals("동청주#2")) {
+
+                } else if (selectedItem.equals("진천#1")) {
+
+                } else if (selectedItem.equals("진천#1")) {
+
+                }
+
+                Toast.makeText(MapActivity.this, "선택된 항목: " + selectedItem, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // 선택된 항목이 없을 때의 동작
+            }
+        });
+
+
+        /*** ★★★ Tmap 관련 ★★★*/
+        // todo 여기서부턴 tmap 쪽 코드
         LinearLayout linearLayoutTmap = (LinearLayout) findViewById(R.id.linearLayoutTmap);
+//        RelativeLayout linearLayoutTmap = (RelativeLayout) findViewById(R.id.linearLayoutTmap);
+
         tMapView = new TMapView(this);
         tMapView.setSKTMapApiKey(tMapApiKey);
+
+        TMapTapi tmaptapi = new TMapTapi(this);
+        tmaptapi.setSKTMapAuthentication (tMapApiKey);
+
+
         linearLayoutTmap.addView(tMapView);
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -77,8 +184,10 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
 
 
 
+
         dbHelper = new TMapDBHelper(this);
-        locationList = dbHelper.getAllLocations();
+//        locationList = dbHelper.getAllLocations();
+        locationList = dbHelper.getTestLocations();
 
 
         markerItem.setAutoCalloutVisible(true);
@@ -86,25 +195,47 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
 
         ArrayList<TMapPoint> alTMapPoint = new ArrayList<TMapPoint>();
 
-
+        Log.d("locationList",String.valueOf(locationList));
         // DB에서 가져온 위치 데이터를 마커로 표시하기
         for (int i = 0; i < locationList.size(); i++) {
             Location loc = locationList.get(i);
+
+            String[] markerInfo = dbHelper.getSpecificColumnValue(loc.getLongitude(), loc.getLatitude());
+            /***
+             * powerName[0] = 대분류(mainGroup)
+             * powerName[1] = 소분류(subGroup)
+             * powerName[2] = 전산화번호(powerNumber)
+             * powerName[3] = 전주명(powerName)
+             */
+
+            String mainGroup = markerInfo[0]; // 대분류
+            String subGroup = markerInfo[1]; // 중분류
+            String powerNumber = markerInfo[2]; // 전산화번호
+            String powerName = markerInfo[3]; // 전주명, 고유한 마커 식별자 생성
+
+
+            String markerId = markerInfo[3]; // 전주명, 고유한 마커 식별자 생성
+            Log.d("powerName", String.valueOf(markerInfo));
+
+
+            Log.d("loc",String.valueOf(loc));
             TMapPoint tMapPoint = new TMapPoint(loc.getLatitude(), loc.getLongitude());
             Bitmap markerImage = BitmapFactory.decodeResource(getResources(), R.drawable.marker2);
 
             TMapMarkerItem markerItem = new TMapMarkerItem();
+
+
             markerItem.setTMapPoint(tMapPoint);
             markerItem.setVisible(TMapMarkerItem.VISIBLE);
             markerItem.setIcon(markerImage);
             markerItem.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
-            markerItem.setCalloutTitle("marker_" + i);  // 마커 제목 설정
-
+            markerItem.setName(mainGroup + ":" + subGroup + ":"+ powerNumber + ":" + powerName);
+            markerItem.setCalloutTitle(markerInfo[3]);  // 마커 제목 설정
             markerItem.setAutoCalloutVisible(true);
-            String markerId = "marker_" + i; // 고유한 마커 식별자 생성
+
+
+
             alTMapPoint.add(tMapPoint);
-
-
             tMapView.addMarkerItem(markerId, markerItem);
             Log.d("포인트", String.valueOf(tMapPoint));
         }
@@ -118,28 +249,33 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
             }
 
             @Override
-            public boolean onPressEvent(ArrayList arrayList, ArrayList poilist, TMapPoint point, PointF pointf) {
+            public boolean onPressEvent(ArrayList arrayList, ArrayList poilist, TMapPoint tMappoint, PointF pointf) {
 
 
                 if (arrayList != null && !arrayList.isEmpty()) {
                     // 클릭한 마커의 정보를 가져옵니다.
                     TMapMarkerItem markerItemData = (TMapMarkerItem) arrayList.get(0);
+
+                    String markerInfo = markerItemData.getName(); // 마커의 모든 정보를 가져옵니다.
+
                     String markerId = markerItemData.getID(); // 마커 ID를 가져옵니다.
 
 
                     // 마커 ID를 토스트 메시지로 출력합니다.
                     Toast.makeText(getApplicationContext(), "마커 ID: " + markerId, Toast.LENGTH_SHORT).show();
 
+                    // 바텀시트다이어로그 호출
+//                    showDialog();     //메소드 코드 현재 미사용
+                    ResultBottomSheetDialog dialog = new ResultBottomSheetDialog();
+                    dialog.show(getSupportFragmentManager(), "Bottom");
 
-                    //Todo 바텀 다이얼로그 시트 생성
-
-                    // 바텀시트 다이얼로그 생성
-                    BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
-                    // 레이아웃 파일 인플레이션
-                    View view = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_dialog, null);
-                    // 바텀시트 다이얼로그에 레이아웃 설정
-                    bottomSheetDialog.setContentView(view);
-//                    bottomSheetDialog.show();
+                    Bundle bundle = new Bundle();
+//                    bundle.putString("mainGroup", mainGroup);
+//                    bundle.putString("subGroup", subGroup);
+//                    bundle.putString("powerNumber", powerNumber);
+                    bundle.putString("markerInfo", markerInfo);
+                    Log.d("번들1", markerInfo);
+                    dialog.setArguments(bundle);
 
                 }
                 return false;
@@ -154,7 +290,6 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
 
             }
         });
-
 
         /***
          * Tmap api를 사용하여 마커간 선을 만드는 코드
@@ -186,43 +321,81 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
         tMapView.addTMapPolyLine("Line1", tMapPolyLine);
 
 
+        tmaptapi.setOnAuthenticationListener(new TMapTapi.OnAuthenticationListenerCallback() {
+            @Override
+            public void SKTMapApikeySucceed() {
+                try {
+                    tMapData.findMultiPointPathData(tMapPointStart, tMapPointEnd, alTMapPoint, 0,
+                            new TMapData.FindPathDataListenerCallback() {
+                                @Override
+                                public void onFindPathData(TMapPolyLine carPolyLine) {
+                                    carPolyLine.setLineColor(Color.BLUE);
+                                    carPolyLine.setLineWidth(30);
+                                    tMapView.setCenterPoint(tMapPointStart_Lon, tMapPointStart_Lat);  // 위치 이동
+                                    tMapView.zoomToTMapPoint(tMapPointStart, tMapPointEnd);    // 줌레벨 조정
+                                    Log.d("성공2", "성공2");
+                                    tMapView.addTMapPath(carPolyLine);
+                                }
+                            });
+                }catch(Exception e) {
+                    e.printStackTrace();
+                    while(true) {
+                        tMapData.findMultiPointPathData(tMapPointStart, tMapPointEnd, alTMapPoint, 0,
+                                new TMapData.FindPathDataListenerCallback() {
+                                    @Override
+                                    public void onFindPathData(TMapPolyLine carPolyLine) {
+                                        carPolyLine.setLineColor(Color.BLUE);
+                                        carPolyLine.setLineWidth(30);
+                                        tMapView.setCenterPoint(tMapPointStart_Lon, tMapPointStart_Lat);  // 위치 이동
+                                        tMapView.zoomToTMapPoint(tMapPointStart, tMapPointEnd);    // 줌레벨 조정
+                                        tMapView.addTMapPath(carPolyLine);
+                                    }
+                                }
+                        );
+                        int i = 1;
 
-        try {
-            tMapData.findMultiPointPathData(tMapPointStart, tMapPointEnd, alTMapPoint, 0,
-                    new TMapData.FindPathDataListenerCallback() {
-                        @Override
-                        public void onFindPathData(TMapPolyLine carPolyLine) {
-                            carPolyLine.setLineColor(Color.BLUE);
-                            carPolyLine.setLineWidth(30);
-                            tMapView.setCenterPoint(tMapPointStart_Lon, tMapPointStart_Lat);  // 위치 이동
-                            tMapView.zoomToTMapPoint(tMapPointStart, tMapPointEnd);    // 줌레벨 조정
-                            Log.d("성공2", "성공2");
-                            tMapView.addTMapPath(carPolyLine);
+                        if (i == 1) {
+                            break;
                         }
-                    });
-        }catch(Exception e) {
-            e.printStackTrace();
-            while(true) {
-                tMapData.findMultiPointPathData(tMapPointStart, tMapPointEnd, alTMapPoint, 0,
-                        new TMapData.FindPathDataListenerCallback() {
-                            @Override
-                            public void onFindPathData(TMapPolyLine carPolyLine) {
-                                carPolyLine.setLineColor(Color.BLUE);
-                                carPolyLine.setLineWidth(30);
-                                tMapView.setCenterPoint(tMapPointStart_Lon, tMapPointStart_Lat);  // 위치 이동
-                                tMapView.zoomToTMapPoint(tMapPointStart, tMapPointEnd);    // 줌레벨 조정
-                                tMapView.addTMapPath(carPolyLine);
-                            }
-                        }
-                );
-                int i = 1;
-
-                if (i == 1) {
-                    break;
+                    }
+                    Log.d("실패2","실패2");
                 }
             }
-            Log.d("실패2","실패2");
-        }
+            @Override
+            public void SKTMapApikeyFailed(String errorMsg) {
+                Toast.makeText(getApplicationContext(), "경로 찾기에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        /*** ★★★ 네비게이션 관련 ★★★*/
+        //네비게이션 관련 함수
+        DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        };
+
+        drawerLayout.addDrawerListener(listener);
+
+
 
 
 
@@ -286,7 +459,29 @@ public class MapActivity extends AppCompatActivity implements TMapGpsManager.onL
     }
 
 
+
+
+    // 바텀다이얼로그 호출
+    public void showDialog() {
+
+        ResultBottomSheetDialog dialog = new ResultBottomSheetDialog();
+        dialog.show(getSupportFragmentManager(), "Bottom");
+
+        Bundle bundle = new Bundle();
+        String test = markerItem.getID();
+        bundle.putString("powerName", markerItem.getID());
+        Log.d("번들1", test);
+        dialog.setArguments(bundle);
+    }
+
+
+    // 바텀다이얼로그 버튼 클릭 이벤트
+    @Override
+    public void onButtonClicked(String text) {
+
+    }
 }
+
 
 
 //

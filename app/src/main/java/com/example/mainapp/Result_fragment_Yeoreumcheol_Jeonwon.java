@@ -73,7 +73,6 @@ public class Result_fragment_Yeoreumcheol_Jeonwon extends Fragment {
                 Canvas canvas = new Canvas(bitmap);
                 canvas.drawColor(Color.WHITE);
                 rootView.draw(canvas);
-
                 String fileName = "설비점검 결과 보고서.png";
 
                 File file = new File(getContext().getExternalFilesDir(null), fileName);
@@ -90,23 +89,23 @@ public class Result_fragment_Yeoreumcheol_Jeonwon extends Fragment {
                 }
 
                 // 이메일 보내기
-                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]
-                            {"syc0106@kepco.co.kr"});
-                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[사업소명] ICT설비점검 결과 송부");  // 메일 제목 (사업소명을 변수로 두고 설정해야함)
-                    emailIntent.putExtra(Intent.EXTRA_TEXT, "[사업소명] ICT설비점검 결과입니다.");  // 메일 내용
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]
+                        {"syc0106@kepco.co.kr"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[사업소명] ICT설비점검 결과 송부");  // 메일 제목 (사업소명을 변수로 두고 설정해야함)
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "[사업소명] ICT설비점검 결과입니다.");  // 메일 내용
 
-                    // 이미지파일 첨부 코드
-                    File resultDir = new File("storage/self/primary/Android/data/com.example.mainapp/files/설비점검 결과 보고서.png");
+                // 이미지파일 첨부 코드
+                File resultDir = new File("storage/self/primary/Android/data/com.example.mainapp/files/설비점검 결과 보고서.png");
 
-                    Log.d("resultFile", String.valueOf(resultDir));
-                    Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".fileprovider", resultDir); // 이미지 결과 파일
-                    Log.d("resultFile", String.valueOf(uri));
-                    emailIntent.setType("image/*");
+                Log.d("resultFile", String.valueOf(resultDir));
+                Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".fileprovider", resultDir); // 이미지 결과 파일
+                Log.d("resultFile", String.valueOf(uri));
+                emailIntent.setType("image/*");
 
-                    emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
-                    startActivity(Intent.createChooser(emailIntent, "ICT 설비점검 결과 보고서 메일 보내기"));
+                startActivity(Intent.createChooser(emailIntent, "ICT 설비점검 결과 보고서 메일 보내기"));
             }
         });
 
@@ -126,7 +125,7 @@ public class Result_fragment_Yeoreumcheol_Jeonwon extends Fragment {
                 Intent intent = new Intent(getActivity(), CustomDrawView.class);
                 startActivity(intent);
 
-                }
+            }
         });
 
 

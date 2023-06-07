@@ -100,7 +100,7 @@ public class Result_fragment_Haebinggi_Boan extends Fragment {
                 // 이메일 보내기
                     Intent emailIntent = new Intent(Intent.ACTION_SEND);
                     emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]
-                            {"syc0106@kepco.co.kr"});
+                            {"hyunjoo.song@kepco.co.kr"});
                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[사업소명] ICT설비점검 결과 송부");  // 메일 제목 (사업소명을 변수로 두고 설정해야함)
                     emailIntent.putExtra(Intent.EXTRA_TEXT, "[사업소명] ICT설비점검 결과입니다.");  // 메일 내용
 
